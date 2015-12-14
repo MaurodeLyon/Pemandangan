@@ -8,6 +8,11 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20">
+                Are you sure you want to reset the route?
+            </TextBlock>
+            <Button Content="Yes" Width="365" HorizontalAlignment="Center" Click="Button_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

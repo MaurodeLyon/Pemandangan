@@ -37,6 +37,7 @@ namespace Pemandangan
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            splitView.IsPaneOpen = !splitView.IsPaneOpen;
             if (SelectRoute.IsSelected)
             {
                 PageName.Text = "Select route";
