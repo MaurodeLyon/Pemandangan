@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pemandangan.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,43 @@ namespace Pemandangan
         public MainPage()
         {
             this.InitializeComponent();
+            PageName.Text = "Language";
+            myFrame.Navigate(typeof(LanguagePage));
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            splitView.IsPaneOpen = !splitView.IsPaneOpen;
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            splitView.IsPaneOpen = !splitView.IsPaneOpen;
+            if (SelectRoute.IsSelected)
+            {
+                PageName.Text = "Select route";
+                myFrame.Navigate(typeof(RoutePage));
+            }
+            else if (Map.IsSelected)
+            {
+                PageName.Text = "Map";
+                myFrame.Navigate(typeof(MapPage));
+            }
+            else if (Help.IsSelected)
+            {
+                PageName.Text = "Help";
+                myFrame.Navigate(typeof(HelpPage));
+            }
+            else if (Language.IsSelected)
+            {
+                PageName.Text = "Language";
+                myFrame.Navigate(typeof(LanguagePage));
+            }
+            else if (RouteReset.IsSelected)
+            {
+                PageName.Text = "Route Reset";
+                myFrame.Navigate(typeof(ResetPage));
+            }
         }
     }
 }

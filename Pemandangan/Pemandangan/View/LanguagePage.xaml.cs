@@ -26,5 +26,10 @@ namespace Pemandangan.View
         {
             this.InitializeComponent();
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
