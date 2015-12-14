@@ -20,16 +20,11 @@ namespace Pemandangan.View
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LanguagePage : Page
+    public sealed partial class ResetPage : Page
     {
-        public LanguagePage()
+        public ResetPage()
         {
             this.InitializeComponent();
-        }
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }
