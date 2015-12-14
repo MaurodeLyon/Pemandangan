@@ -12,7 +12,7 @@
             <ListBox SelectionChanged="ListBox_SelectionChanged">
                 <ListBoxItem>
                     <StackPanel Orientation="Horizontal">
-                        <RadioButton Content="Placeholder name"/>
+                        <TextBlock Text="Placeholder name"/>
                     </StackPanel>
                 </ListBoxItem>
             </ListBox>
