@@ -8,15 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ListBox SelectionChanged="ListBox_SelectionChanged">
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Placeholder name"/>
-                    </StackPanel>
-                </ListBoxItem>
-            </ListBox>
-        </ScrollViewer>
 
     </Grid>
 </Page>

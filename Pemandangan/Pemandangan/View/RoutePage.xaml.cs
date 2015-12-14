@@ -26,10 +26,5 @@ namespace Pemandangan.View
         {
             this.InitializeComponent();
         }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
