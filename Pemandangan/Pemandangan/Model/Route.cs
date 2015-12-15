@@ -8,5 +8,16 @@ namespace Pemandangan.Model
 {
     class Route
     {
+        private string name;
+        private List<Place> places { get; set; }
+        private List<RoutePoint> routePoints { get; set; }
+
+        public Route()
+        {
+            places = new List<Place>();
+            routePoints = new List<RoutePoint>();
+        }
+
+
     }
 }

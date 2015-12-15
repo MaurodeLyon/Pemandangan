@@ -8,5 +8,10 @@ namespace Pemandangan.Model
 {
     class PlaceInfo
     {
+        private string name;
+        private string information;
+        private string image, audio;
+
+        //Frist jouw taak 
     }
 }
