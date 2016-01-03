@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace Pemandangan.Model
 {
-    class Route
+    public class Route
     {
+        public Route(string RouteName)
+        {
+            this.RouteName = RouteName;
+        }
+
+        public String RouteName { get; }
+
+
     }
 }
