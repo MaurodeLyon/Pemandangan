@@ -41,7 +41,7 @@ namespace Pemandangan
             if (SelectRoute.IsSelected)
             {
                 PageName.Text = "Select route";
-                myFrame.Navigate(typeof(RoutePage));
+                myFrame.Navigate(typeof(RoutePage),myFrame);
             }
             else if (Map.IsSelected)
             {

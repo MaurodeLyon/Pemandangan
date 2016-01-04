@@ -26,6 +26,8 @@ namespace Pemandangan.View
 
         public List<Route> RouteList { get; set; } = new List<Route>();
 
+        private Frame myframe;
+
         public RoutePage()
         {
             this.InitializeComponent();
@@ -42,7 +44,15 @@ namespace Pemandangan.View
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             Route route = (Route) e.ClickedItem;
-//            Frame.Navigate(typeof(MapPage), route);
+            myframe.Navigate(typeof(MapPage), new RouteWrapper(myframe, route));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            myframe = (Frame) e.Parameter;
+
         }
     } 
 }
