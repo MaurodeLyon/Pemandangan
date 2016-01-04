@@ -24,9 +24,10 @@ namespace Pemandangan.Model
             string jsonString = "";
             try
             {
-                var uri = new System.Uri("ms-appx:///Assets/route_data.json");
-                var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-                jsonString = await Windows.Storage.FileIO.ReadTextAsync(file);
+//                var uri = new System.Uri("ms-appx:///Assets/route_data.txt");
+//                var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+                string file = "Assets/route_data.txt";
+                jsonString = File.ReadAllText(file);
             }
             catch (Exception e)
             {

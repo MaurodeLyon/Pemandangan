@@ -10,6 +10,13 @@ namespace Pemandangan.Model
         [DataMember]
         public string name { get; set; }
         [DataMember]
+        public string description { get; set; }
+        [DataMember]
+        public string landmarks { get; set; }
+        [DataMember]
+        public List<Waypoint> waypoints { get; set; }
+
+        [DataMember]
         private List<Place> places { get; set; }
         [DataMember]
         private List<RoutePoint> routePoints { get; set; }

@@ -92,7 +92,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Assets\route_data.json" />
+    <Content Include="Assets\route_data.txt" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +105,7 @@
     <Compile Include="Model\PlaceInfo.cs" />
     <Compile Include="Model\Route.cs" />
     <Compile Include="Model\RoutePoint.cs" />
+    <Compile Include="Model\Waypoint.cs" />
     <Compile Include="View\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
