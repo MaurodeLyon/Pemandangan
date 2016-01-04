@@ -8,5 +8,8 @@ namespace Pemandangan.Model
 {
     class Language
     {
+
+        //Melanys taak
     }
+
 }
