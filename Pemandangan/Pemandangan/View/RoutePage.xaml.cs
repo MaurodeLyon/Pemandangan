@@ -37,11 +37,6 @@ namespace Pemandangan.View
             Route route = handler.lastRoute;
 
             this.RouteList.Add(route);
-
-            this.RouteList.Add(new Route("Route 1"));
-            this.RouteList.Add(new Route("Route 2"));
-            this.RouteList.Add(new Route("Route 3"));
-            this.RouteList.Add(new Route("Route 4"));
         }
     } 
 }

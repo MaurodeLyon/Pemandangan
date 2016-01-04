@@ -26,12 +26,5 @@ namespace Pemandangan.Model
             places = new List<Place>();
             routePoints = new List<RoutePoint>();
         }
-
-        public Route(string RouteName)
-        {
-            this.RouteName = RouteName;
-        }
-
-        public String RouteName { get; }
     }
 }

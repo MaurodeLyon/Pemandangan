@@ -19,7 +19,7 @@
         <ListView Grid.Row="1" ItemsSource="{x:Bind RouteList}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Enabled">
             <ListView.ItemTemplate>
                 <DataTemplate  x:DataType="model:Route">
-                    <TextBlock x:Name="Routename" Height="25"  Text="{x:Bind RouteName}" FontSize="20"/>
+                    <TextBlock x:Name="Routename" Height="25"  Text="{x:Bind name}" FontSize="20"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
