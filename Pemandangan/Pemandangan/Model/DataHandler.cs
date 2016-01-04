@@ -9,38 +9,33 @@ using Windows.Storage;
 
 namespace Pemandangan.Model
 {
-    class DataHandler
+    public class DataHandler
     {
-        private List<Route> routes { get; set; }
         private List<Language> languages { get; set; }
 
         public DataHandler()
         {
-            routes = new List<Route>();
             languages = new List<Language>();
             //LoadRoutes();
         }
 
-        private void LoadRoutes()
+        public async void LoadRoutes()
         {
             string jsonString = "";
             try
             {
-                using (var stream = ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("routes.json").Result)
-                {
-                    byte[] result = new byte[stream.Length];
-                    stream.ReadAsync(result, 0, result.Length);
-                    jsonString = Encoding.ASCII.GetString(result);
-                }
+                var uri = new System.Uri("ms-appx:///Assets/route_data.json");
+                var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+                jsonString = await Windows.Storage.FileIO.ReadTextAsync(file);
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("not save data yet ");
-                //saveShit(); //file does not exist yet.
+                System.Diagnostics.Debug.WriteLine("no data: " + e);
             }
             if (!string.IsNullOrEmpty(jsonString))
-                routes = JsonConvert.DeserializeObject<List<Route>>(jsonString);
+                lastRoute = JsonConvert.DeserializeObject<Route>(jsonString);
         }
 
+        public Route lastRoute { get; set; }
     }
 }

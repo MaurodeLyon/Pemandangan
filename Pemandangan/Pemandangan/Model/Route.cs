@@ -8,7 +8,7 @@ namespace Pemandangan.Model
     public class Route
     {
         [DataMember]
-        private string name;
+        public string name { get; set; }
         [DataMember]
         private List<Place> places { get; set; }
         [DataMember]
