@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 
 namespace Pemandangan.Model
 {
-
+    [DataContract]
     class RoutePoint
     {
         public enum Direction
@@ -22,13 +23,27 @@ namespace Pemandangan.Model
             NorthWest
         };
 
-        private Geocoordinate geoCoordinate;
+        [DataMember]
+        public double longitude { get; set; }
+        [DataMember]
+        public double latitiude { get; set; }
+        [DataMember]
         private Direction direction;
 
-        public RoutePoint(Geocoordinate geoCoordinate, Direction direction)
+        public RoutePoint(double longitude, double latitiude, Direction direction)
         {
-            this.geoCoordinate = geoCoordinate;
+            this.latitiude = latitiude;
+            this.longitude = longitude;
             this.direction = direction;
+        }
+
+        public Geopoint ShowPlace()
+        {
+            return new Geopoint(new BasicGeoposition()
+            {
+                Longitude = longitude,
+                Latitude = latitiude
+            });
         }
     }
 }
