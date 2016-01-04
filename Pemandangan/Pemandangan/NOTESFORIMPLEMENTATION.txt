@@ -1,0 +1,5 @@
+Route with routepoints.
+draw route with all routepoints.
+every routepoint is a mapIcon with a geofence (link every routepoint with a mapicon/geofence).
+This way you can find the appropriate routepoint info when a mapicon is clicked or
+the appropriate mapicon to change to seen when a geofence is entered.
