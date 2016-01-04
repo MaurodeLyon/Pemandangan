@@ -42,7 +42,7 @@ namespace Pemandangan.View
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             Route route = (Route) e.ClickedItem;
-            Frame.Navigate(typeof(MapPage), route);
+//            Frame.Navigate(typeof(MapPage), route);
         }
     } 
 }
