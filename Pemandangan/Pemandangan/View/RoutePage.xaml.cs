@@ -38,5 +38,11 @@ namespace Pemandangan.View
 
             this.RouteList.Add(route);
         }
+
+        private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            Route route = (Route) e.ClickedItem;
+            Frame.Navigate(typeof(MapPage), route);
+        }
     } 
 }

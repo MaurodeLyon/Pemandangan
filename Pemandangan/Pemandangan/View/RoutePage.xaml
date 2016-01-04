@@ -16,7 +16,7 @@
 
         <TextBlock Grid.Row="0" Text="Routes" FontSize="50"></TextBlock>
         
-        <ListView Grid.Row="1" ItemsSource="{x:Bind RouteList}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Enabled">
+        <ListView Grid.Row="1" ItemsSource="{x:Bind RouteList}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Enabled" IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick">
             <ListView.ItemTemplate>
                 <DataTemplate  x:DataType="model:Route">
                     <TextBlock x:Name="Routename" Height="25"  Text="{x:Bind name}" FontSize="20"/>

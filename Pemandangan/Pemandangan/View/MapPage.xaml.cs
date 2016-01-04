@@ -88,7 +88,6 @@ namespace Pemandangan.View
 
         private void setupGeofences()
         {
-            throw new NotImplementedException();
         }
 
         public async void setupGeofencing()
