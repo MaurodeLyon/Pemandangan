@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Pemandangan.Model;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,14 +23,18 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class RoutePage : Page
     {
+
+        public List<Route> RouteList { get; set; } = new List<Route>();
+
         public RoutePage()
         {
             this.InitializeComponent();
-        }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            throw new NotImplementedException();
+            //test routes
+            this.RouteList.Add(new Route("Route 1"));
+            this.RouteList.Add(new Route("Route 2"));
+            this.RouteList.Add(new Route("Route 3"));
+            this.RouteList.Add(new Route("Route 4"));
         }
-    }
+    } 
 }
