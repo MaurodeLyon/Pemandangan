@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Data.Xml.Dom;
 using Windows.Devices.Geolocation;
 using Windows.Devices.Geolocation.Geofencing;
 using Windows.Foundation;
@@ -12,6 +13,7 @@ using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -83,7 +85,7 @@ namespace Pemandangan.View
             currentPos.Location = pos;
             currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
             currentPos.Title = "Current position";
-            currentPos.ZIndex = 4;
+            currentPos.ZIndex = 5;
 
             map.MapElements.Add(currentPos);
             
@@ -121,8 +123,7 @@ namespace Pemandangan.View
 
 
 
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
+            
                 foreach (GeofenceStateChangeReport report in reports)
                 {
                     GeofenceState state = report.NewState;
@@ -138,10 +139,21 @@ namespace Pemandangan.View
 
                         if (geofence.Id != "currentLoc")
                         {
-                            var dialog = new Windows.UI.Popups.MessageDialog(geofence.Id + " Entered");
-                            var result = await dialog.ShowAsync();
+                        //var dialog = new Windows.UI.Popups.MessageDialog(geofence.Id + " Entered");
+                        //var result = await dialog.ShowAsync();
+                        String desc="";
+
+                        foreach(Waypoint e in route.waypoints)
+                        {
+                            if(geofence.Id == e.name)
+                            {
+                                desc = e.name;
+                            }
                         }
                             
+                            pushNot("Waypoint Nearby", desc);
+                        }
+
 
 
 
@@ -152,7 +164,7 @@ namespace Pemandangan.View
 
                     }
                 }
-            });
+           
         }
 
         private async void GeolocatorPositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -242,14 +254,18 @@ namespace Pemandangan.View
                 {
                     desc = w.description;
 
-                    wrap.frame.Navigate(typeof(InfoPage), w);
+                    //wrap.frame.Navigate(typeof(InfoPage), w);
                 }
             }
 
-            var dialog = new Windows.UI.Popups.MessageDialog(
-                test + "'\n"+ desc);
+            if(args.MapElements.First() is MapIcon)
+            {
+                pushNot("Waypoint nearby!", test);
+            }
+           // var dialog = new Windows.UI.Popups.MessageDialog(
+              //  test + "'\n"+ desc);
 
-            var result = await dialog.ShowAsync();
+            //var result = await dialog.ShowAsync();
         }
 
         public async void buildMap()
@@ -275,7 +291,7 @@ namespace Pemandangan.View
 
             MapRoute b = routeResult.Route;
 
-            
+
             var color = Colors.Green;
             color.A = 128;
 
@@ -309,6 +325,28 @@ namespace Pemandangan.View
             Geofence fence = new Geofence(w.name, geocircle, mask, false, new TimeSpan(0));
             if(!GeofenceMonitor.Current.Geofences.Contains(fence))
             GeofenceMonitor.Current.Geofences.Add(fence);
+        }
+
+        public void pushNot(String title, String desc)
+        {
+            ToastTemplateType toastTemplate = ToastTemplateType.ToastText02;
+            XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(toastTemplate);
+
+            XmlNodeList toastTextElements = toastXml.GetElementsByTagName("text");
+            toastTextElements[0].AppendChild(toastXml.CreateTextNode(title));
+            toastTextElements[1].AppendChild(toastXml.CreateTextNode(desc));
+
+            IXmlNode toastNode = toastXml.SelectSingleNode("/toast");
+            XmlElement test = toastXml.CreateElement("test");
+
+            test.SetAttribute("src", "ms-winsoundevent:Notification.IM");
+
+            toastNode.AppendChild(test);
+
+            ToastNotification toast = new ToastNotification(toastXml);
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+
+
         }
 
     }
