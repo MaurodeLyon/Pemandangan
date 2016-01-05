@@ -39,6 +39,7 @@ namespace Pemandangan.View
         private StorageFile waypoint;
         private StorageFile seen;
         private Route route;
+        private RouteWrapper wrap;
 
         public MapPage()
         {
@@ -58,7 +59,7 @@ namespace Pemandangan.View
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            RouteWrapper wrap = (RouteWrapper)e.Parameter;
+            wrap = (RouteWrapper)e.Parameter;
             route = wrap.route;
             setupGeofencing();
             buildMap();
@@ -240,6 +241,8 @@ namespace Pemandangan.View
                 if (w.name == test)
                 {
                     desc = w.description;
+
+                    wrap.frame.Navigate(typeof(InfoPage), w);
                 }
             }
 
