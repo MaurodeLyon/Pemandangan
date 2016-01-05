@@ -42,7 +42,7 @@ namespace Pemandangan
             splitView.IsPaneOpen = !splitView.IsPaneOpen;
             if (SelectRoute.IsSelected)
             {
-                PageName.Text = "Select route";
+                PageName.Text = "Map";
                 myFrame.Navigate(typeof(RoutePage),myFrame);
             }
             else if (Map.IsSelected)
