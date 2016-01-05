@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Pemandangan.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Data.Xml.Dom;
 using Windows.Devices.Geolocation;
 using Windows.Devices.Geolocation.Geofencing;
 using Windows.Foundation;
@@ -11,6 +13,7 @@ using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -37,6 +40,8 @@ namespace Pemandangan.View
 
         private StorageFile waypoint;
         private StorageFile seen;
+        private Route route;
+        private RouteWrapper wrap;
 
         public MapPage()
         {
@@ -56,6 +61,10 @@ namespace Pemandangan.View
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            wrap = (RouteWrapper)e.Parameter;
+            route = wrap.route;
+            setupGeofencing();
+            buildMap();
 
             if (geolocator == null)
             {
@@ -76,20 +85,17 @@ namespace Pemandangan.View
             currentPos.Location = pos;
             currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
             currentPos.Title = "Current position";
-            currentPos.ZIndex = 4;
+            currentPos.ZIndex = 5;
 
             map.MapElements.Add(currentPos);
             
             await map.TrySetViewAsync(pos, 17);
 
-            setupGeofencing();
-            setupGeofences();
+            
+            
         }
 
-        private void setupGeofences()
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async void setupGeofencing()
         {
@@ -117,8 +123,7 @@ namespace Pemandangan.View
 
 
 
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
+            
                 foreach (GeofenceStateChangeReport report in reports)
                 {
                     GeofenceState state = report.NewState;
@@ -134,10 +139,21 @@ namespace Pemandangan.View
 
                         if (geofence.Id != "currentLoc")
                         {
-                            var dialog = new Windows.UI.Popups.MessageDialog(geofence.Id + "Entered");
-                            var result = await dialog.ShowAsync();
+                        //var dialog = new Windows.UI.Popups.MessageDialog(geofence.Id + " Entered");
+                        //var result = await dialog.ShowAsync();
+                        String desc="";
+
+                        foreach(Waypoint e in route.waypoints)
+                        {
+                            if(geofence.Id == e.name)
+                            {
+                                desc = e.name;
+                            }
                         }
                             
+                            pushNot("Waypoint Nearby", desc);
+                        }
+
 
 
 
@@ -148,7 +164,7 @@ namespace Pemandangan.View
 
                     }
                 }
-            });
+           
         }
 
         private async void GeolocatorPositionChanged(Geolocator sender, PositionChangedEventArgs args)
@@ -228,25 +244,54 @@ namespace Pemandangan.View
             if (args.MapElements.First() is MapIcon)
             {
                 MapIcon two = (MapIcon)args.MapElements.First();
-                test = two.Title + args.MapElements.Count;
+                test = two.Title;
+            }
+            string desc = "";
+
+            foreach(Waypoint w in route.waypoints)
+            {
+                if (w.name == test)
+                {
+                    desc = w.description;
+
+                    //wrap.frame.Navigate(typeof(InfoPage), w);
+                }
             }
 
-            var dialog = new Windows.UI.Popups.MessageDialog(
-                "Aliquam laoreet magna sit amet mauris iaculis ornare. " +
-                "Morbi iaculis augue vel elementum volutpat.",
-                "Lorem Ipsum" + test);
+            if(args.MapElements.First() is MapIcon)
+            {
+                pushNot("Waypoint nearby!", test);
+            }
+           // var dialog = new Windows.UI.Popups.MessageDialog(
+              //  test + "'\n"+ desc);
 
-            var result = await dialog.ShowAsync();
+            //var result = await dialog.ShowAsync();
         }
 
-        public async void buildMap(List<Geopoint> list)
+        public async void buildMap()
         {
+
+            List<Geopoint> tempList= new List<Geopoint>();
+            int i =GeofenceMonitor.Current.Geofences.Count;
+
+            foreach (Waypoint e in route.waypoints)
+            {
+                tempList.Add(e.GeoPosition());
+                if(e.landmark)
+                {
+                    addMapIcon(e);
+                    setupGeofences(e);
+                }
+                
+            }
+
+
             MapRouteFinderResult routeResult
-                = await MapRouteFinder.GetDrivingRouteFromWaypointsAsync(list);
+                = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(tempList);
 
             MapRoute b = routeResult.Route;
 
-            
+
             var color = Colors.Green;
             color.A = 128;
 
@@ -261,6 +306,47 @@ namespace Pemandangan.View
             line.Path = new Geopath(b.Path.Positions);
 
             map.MapElements.Add(line);
+        }
+
+        private void addMapIcon(Waypoint e)
+        {
+            MapIcon m = new MapIcon();
+            m.Location = e.GeoPosition();
+            m.NormalizedAnchorPoint = new Point(0.5, 1.0);
+            m.Title = e.name;
+            m.ZIndex = 4;
+
+            map.MapElements.Add(m);
+        }
+        private void setupGeofences(Waypoint w)
+        {
+            Geocircle geocircle = new Geocircle(w.GeoPosition().Position, 40);
+            MonitoredGeofenceStates mask = MonitoredGeofenceStates.Entered | MonitoredGeofenceStates.Exited;
+            Geofence fence = new Geofence(w.name, geocircle, mask, false, new TimeSpan(0));
+            if(!GeofenceMonitor.Current.Geofences.Contains(fence))
+            GeofenceMonitor.Current.Geofences.Add(fence);
+        }
+
+        public void pushNot(String title, String desc)
+        {
+            ToastTemplateType toastTemplate = ToastTemplateType.ToastText02;
+            XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(toastTemplate);
+
+            XmlNodeList toastTextElements = toastXml.GetElementsByTagName("text");
+            toastTextElements[0].AppendChild(toastXml.CreateTextNode(title));
+            toastTextElements[1].AppendChild(toastXml.CreateTextNode(desc));
+
+            IXmlNode toastNode = toastXml.SelectSingleNode("/toast");
+            XmlElement test = toastXml.CreateElement("test");
+
+            test.SetAttribute("src", "ms-winsoundevent:Notification.IM");
+
+            toastNode.AppendChild(test);
+
+            ToastNotification toast = new ToastNotification(toastXml);
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
+
+
         }
 
     }

@@ -8,7 +8,14 @@ namespace Pemandangan.Model
     public class Route
     {
         [DataMember]
-        private string name;
+        public string name { get; set; }
+        [DataMember]
+        public string description { get; set; }
+        [DataMember]
+        public string landmarks { get; set; }
+        [DataMember]
+        public List<Waypoint> waypoints { get; set; }
+
         [DataMember]
         private List<Place> places { get; set; }
         [DataMember]
@@ -20,11 +27,6 @@ namespace Pemandangan.Model
             routePoints = new List<RoutePoint>();
         }
 
-        public Route(string RouteName)
-        {
-            this.RouteName = RouteName;
-        }
 
-        public String RouteName { get; }
     }
 }

@@ -26,15 +26,33 @@ namespace Pemandangan.View
 
         public List<Route> RouteList { get; set; } = new List<Route>();
 
+        private Frame myframe;
+
         public RoutePage()
         {
             this.InitializeComponent();
 
             //test routes
-            this.RouteList.Add(new Route("Route 1"));
-            this.RouteList.Add(new Route("Route 2"));
-            this.RouteList.Add(new Route("Route 3"));
-            this.RouteList.Add(new Route("Route 4"));
+            DataHandler handler = new DataHandler();
+            handler.LoadRoutes();
+
+            Route route = handler.lastRoute;
+
+            this.RouteList.Add(route);
+        }
+
+        private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            Route route = (Route) e.ClickedItem;
+            myframe.Navigate(typeof(MapPage), new RouteWrapper(myframe, route));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            myframe = (Frame) e.Parameter;
+
         }
     } 
 }

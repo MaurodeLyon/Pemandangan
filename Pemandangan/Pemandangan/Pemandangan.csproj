@@ -92,6 +92,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\route_data.txt" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +105,8 @@
     <Compile Include="Model\PlaceInfo.cs" />
     <Compile Include="Model\Route.cs" />
     <Compile Include="Model\RoutePoint.cs" />
+    <Compile Include="Model\Waypoint.cs" />
+    <Compile Include="RouteWrapper.cs" />
     <Compile Include="View\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
@@ -177,6 +180,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
