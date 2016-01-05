@@ -42,6 +42,8 @@ namespace Pemandangan.View
         private StorageFile seen;
         private Route route;
         private RouteWrapper wrap;
+        private Uri uri1;
+        private Uri uri2;
 
         public MapPage()
         {
@@ -52,8 +54,8 @@ namespace Pemandangan.View
 
         private async void loadAssets()
         {
-            var uri1 = new System.Uri("ms-appx:///Assets/test01.jpg");
-            var uri2 = new System.Uri("ms-appx:///Assets/test01.jpg");
+            uri1 = new System.Uri("ms-appx:///Assets/WaypointRed.png");
+            uri2 = new System.Uri("ms-appx:///Assets/WaypointGreen.png");
             waypoint = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1);
             seen = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri2);
         }
@@ -86,7 +88,7 @@ namespace Pemandangan.View
             currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
             currentPos.Title = "Current position";
             currentPos.ZIndex = 5;
-
+            currentPos.Image = waypoint;
             map.MapElements.Add(currentPos);
             
             await map.TrySetViewAsync(pos, 17);
@@ -152,6 +154,21 @@ namespace Pemandangan.View
                         }
                             
                             pushNot("Waypoint Nearby", desc);
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,async () =>
+                        {
+                            foreach (MapElement me in map.MapElements)
+                            {
+                                if (me is MapIcon)
+                                {
+                                    MapIcon icon = (MapIcon)me;
+                                    if (icon.Title == geofence.Id)
+                                    {
+
+                                        icon.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri2);
+                                    }
+                                }
+                            }
+                        });
                         }
 
 
@@ -308,13 +325,14 @@ namespace Pemandangan.View
             map.MapElements.Add(line);
         }
 
-        private void addMapIcon(Waypoint e)
+        private async void addMapIcon(Waypoint e)
         {
             MapIcon m = new MapIcon();
             m.Location = e.GeoPosition();
             m.NormalizedAnchorPoint = new Point(0.5, 1.0);
             m.Title = e.name;
             m.ZIndex = 4;
+            m.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1); ;
 
             map.MapElements.Add(m);
         }
