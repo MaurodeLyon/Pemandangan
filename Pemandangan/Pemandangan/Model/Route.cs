@@ -26,5 +26,7 @@ namespace Pemandangan.Model
             places = new List<Place>();
             routePoints = new List<RoutePoint>();
         }
+
+
     }
 }

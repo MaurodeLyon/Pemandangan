@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Devices.Geolocation;
 
 namespace Pemandangan.Model
 {
@@ -14,5 +15,15 @@ namespace Pemandangan.Model
         public string image { get; set; }
         public double latitude { get; set; }
         public double longitude { get; set; }
+
+
+        public Geopoint GeoPosition()
+        {
+            return new Geopoint(new BasicGeoposition()
+            {
+                Longitude = longitude,
+                Latitude = latitude
+            });
+        }
     }
 }

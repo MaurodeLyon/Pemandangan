@@ -11,7 +11,7 @@ namespace Pemandangan
     class RouteWrapper
     {
         public Frame frame { get;}
-        private Route route { get;}
+        public Route route { get;}
 
         public RouteWrapper(Frame frame, Route route)
         {
