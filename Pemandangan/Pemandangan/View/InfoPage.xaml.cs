@@ -11,20 +11,28 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Pemandangan.View
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+    
     public sealed partial class InfoPage : Page
     {
+        Model.PlaceInfo info = new Model.PlaceInfo();
+
+
         public InfoPage()
         {
-            this.InitializeComponent();
+            try {
+                Picture.Source = info.getPlace(1);
+            }
+            catch(NullReferenceException ex)
+            {
+
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Pemandangan
         {
             this.InitializeComponent();
             PageName.Text = "Language";
-            myFrame.Navigate(typeof(LanguagePage));
+            myFrame.Navigate(typeof(InfoPage));
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
