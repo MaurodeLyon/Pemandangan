@@ -8,15 +8,19 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ListBox SelectionChanged="ListBox_SelectionChanged">
-                <ListBoxItem>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Placeholder name"/>
-                    </StackPanel>
-                </ListBoxItem>
-            </ListBox>
-        </ScrollViewer>
+        <StackPanel x:Name="LAYOUTROOT" Orientation="Vertical">
+           
+            <StackPanel Orientation="Horizontal" Margin="0,20">
+                <TextBlock x:Name="Choose" Text="Kies een taal"/>
+                <ComboBox Margin="15,0" ItemsSource="{x:Bind list}"/>
+            </StackPanel>
+            
+            
+            
+        </StackPanel>
+            
+            
+        
 
     </Grid>
 </Page>

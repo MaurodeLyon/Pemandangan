@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,9 +23,14 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class LanguagePage : Page
     {
+        ObservableCollection<String> list;
+
         public LanguagePage()
         {
             this.InitializeComponent();
+            list = new ObservableCollection<string>();
+            list.Add("Nederlands");
+            list.Add("Engels");
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
