@@ -92,6 +92,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\NotSeenWayPoint.png" />
+    <Content Include="Assets\Person.png" />
     <Content Include="Assets\route_data.txt" />
     <None Include="project.json" />
   </ItemGroup>
@@ -137,9 +139,7 @@
     <None Include="Pemandangan_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\test01.jpg" />
-    <Content Include="Assets\WaypointGreen.png" />
-    <Content Include="Assets\WaypointRed.png" />
+    <Content Include="Assets\SeenWayPoint.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
