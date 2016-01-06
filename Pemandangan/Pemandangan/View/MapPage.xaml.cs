@@ -44,10 +44,12 @@ namespace Pemandangan.View
         private RouteWrapper wrap;
         private Uri uri1;
         private Uri uri2;
+        private bool mapBuild = false;
 
         public MapPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
             walkedRoute = new List<Geopoint>();
             loadAssets();
         }
@@ -65,33 +67,35 @@ namespace Pemandangan.View
             base.OnNavigatedTo(e);
             wrap = (RouteWrapper)e.Parameter;
             route = wrap.route;
-            setupGeofencing();
-            buildMap();
-
-            if (geolocator == null)
+            if (!mapBuild)
             {
-                geolocator = new Geolocator
+                setupGeofencing();
+                buildMap();
+                if (geolocator == null)
                 {
-                    DesiredAccuracy = PositionAccuracy.High,
-                    MovementThreshold = 1
-                };
+                    geolocator = new Geolocator
+                    {
+                        DesiredAccuracy = PositionAccuracy.High,
+                        MovementThreshold = 1
+                    };
 
-                geolocator.PositionChanged += GeolocatorPositionChanged;
-                //GeofenceMonitor.Current.GeofenceStateChanged += GeofenceStateChanged;
+                    geolocator.PositionChanged += GeolocatorPositionChanged;
+                    //GeofenceMonitor.Current.GeofenceStateChanged += GeofenceStateChanged;
+                }
+                Geoposition d = await geolocator.GetGeopositionAsync();
+
+                var pos = new Geopoint(d.Coordinate.Point.Position);
+
+                currentPos = new MapIcon();
+                currentPos.Location = pos;
+                currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
+                currentPos.Title = "Current position";
+                currentPos.ZIndex = 5;
+                currentPos.Image = waypoint;
+                map.MapElements.Add(currentPos);
+
+                await map.TrySetViewAsync(pos, 17);
             }
-            Geoposition d = await geolocator.GetGeopositionAsync();
-
-            var pos = new Geopoint(d.Coordinate.Point.Position);
-
-            currentPos = new MapIcon();
-            currentPos.Location = pos;
-            currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
-            currentPos.Title = "Current position";
-            currentPos.ZIndex = 5;
-            currentPos.Image = waypoint;
-            map.MapElements.Add(currentPos);
-            
-            await map.TrySetViewAsync(pos, 17);
 
             
             
@@ -271,7 +275,7 @@ namespace Pemandangan.View
                 {
                     desc = w.description;
 
-                    //wrap.frame.Navigate(typeof(InfoPage), w);
+                    wrap.frame.Navigate(typeof(InfoPage), new WaypointWrapper(w,wrap.frame));
                 }
             }
 
@@ -304,6 +308,7 @@ namespace Pemandangan.View
 
 
             getMap(tempList);
+            mapBuild = true;
 
         }
 

@@ -129,6 +129,7 @@
     <Compile Include="View\RoutePage.xaml.cs">
       <DependentUpon>RoutePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WaypointWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
