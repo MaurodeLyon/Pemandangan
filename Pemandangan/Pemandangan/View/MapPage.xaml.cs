@@ -44,6 +44,7 @@ namespace Pemandangan.View
         private RouteWrapper wrap;
         private Uri uri1;
         private Uri uri2;
+        private Uri person;
 
         public MapPage()
         {
@@ -54,8 +55,9 @@ namespace Pemandangan.View
 
         private async void loadAssets()
         {
-            uri1 = new System.Uri("ms-appx:///Assets/WaypointRed.png");
-            uri2 = new System.Uri("ms-appx:///Assets/WaypointGreen.png");
+            uri1 = new System.Uri("ms-appx:///Assets/NotSeenWayPoint.png");
+            uri2 = new System.Uri("ms-appx:///Assets/SeenWayPoint.png");
+            person = new Uri("ms-appx:///Assets/Person.png");
             waypoint = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1);
             seen = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri2);
         }
@@ -88,7 +90,7 @@ namespace Pemandangan.View
             currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
             currentPos.Title = "Current position";
             currentPos.ZIndex = 5;
-            currentPos.Image = waypoint;
+            currentPos.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(person);
             map.MapElements.Add(currentPos);
             
             await map.TrySetViewAsync(pos, 17);
@@ -347,7 +349,7 @@ namespace Pemandangan.View
             m.NormalizedAnchorPoint = new Point(0.5, 1.0);
             m.Title = e.name;
             m.ZIndex = 4;
-            m.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1); ;
+            m.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1);
 
             map.MapElements.Add(m);
         }
