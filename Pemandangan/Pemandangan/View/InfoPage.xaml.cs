@@ -46,7 +46,7 @@ namespace Pemandangan.View
             {
                 WaypointWrapper wp = (WaypointWrapper)e.Parameter;
 
-                //Picture.Source = new BitmapImage(new Uri(wp.image, UriKind.Relative));
+                Picture.Source = new BitmapImage(new System.Uri(wp.w.image, UriKind.Absolute));
                 Titel.Text = wp.w.name;
                 InfoText.Text = wp.w.description;
                 this.wp = wp;

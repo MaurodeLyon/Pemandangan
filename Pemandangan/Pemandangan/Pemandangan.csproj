@@ -92,6 +92,32 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Pictures\1.jpg" />
+    <Content Include="Assets\Pictures\10.jpg" />
+    <Content Include="Assets\Pictures\11.jpg" />
+    <Content Include="Assets\Pictures\12.jpg" />
+    <Content Include="Assets\Pictures\13.jpg" />
+    <Content Include="Assets\Pictures\14.jpg" />
+    <Content Include="Assets\Pictures\15.jpg" />
+    <Content Include="Assets\Pictures\16.jpg" />
+    <Content Include="Assets\Pictures\17.jpg" />
+    <Content Include="Assets\Pictures\18.jpg" />
+    <Content Include="Assets\Pictures\19.jpg" />
+    <Content Include="Assets\Pictures\2.jpg" />
+    <Content Include="Assets\Pictures\20.jpg" />
+    <Content Include="Assets\Pictures\21.jpg" />
+    <Content Include="Assets\Pictures\22.jpg" />
+    <Content Include="Assets\Pictures\23.jpg" />
+    <Content Include="Assets\Pictures\24.jpg" />
+    <Content Include="Assets\Pictures\25.jpg" />
+    <Content Include="Assets\Pictures\26.jpg" />
+    <Content Include="Assets\Pictures\3.jpg" />
+    <Content Include="Assets\Pictures\4.jpg" />
+    <Content Include="Assets\Pictures\5.jpg" />
+    <Content Include="Assets\Pictures\6.jpg" />
+    <Content Include="Assets\Pictures\7.jpg" />
+    <Content Include="Assets\Pictures\8.jpg" />
+    <Content Include="Assets\Pictures\9.jpg" />
     <Content Include="Assets\route_data.txt" />
     <None Include="project.json" />
   </ItemGroup>
