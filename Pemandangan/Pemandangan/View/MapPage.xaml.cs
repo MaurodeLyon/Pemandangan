@@ -45,6 +45,7 @@ namespace Pemandangan.View
         private Uri uri1;
         private Uri uri2;
         private bool mapBuild = false;
+        private DataHandler datahandler;
 
         public MapPage()
         {
@@ -66,7 +67,12 @@ namespace Pemandangan.View
         {
             base.OnNavigatedTo(e);
             wrap = (RouteWrapper)e.Parameter;
-            route = wrap.route;
+            try
+            {
+                datahandler = wrap.datahandler;
+                route = datahandler.lastRoute;
+            }
+            catch (NullReferenceException ex) { }
             if (!mapBuild)
             {
                 setupGeofencing();

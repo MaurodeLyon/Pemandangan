@@ -45,14 +45,14 @@ namespace Pemandangan.View
             if(e.Parameter != null)
             {
                 WaypointWrapper wp = (WaypointWrapper)e.Parameter;
-
-                Picture.Source = new BitmapImage(new System.Uri(wp.w.image, UriKind.Absolute));
+                try {
+                    Picture.Source = new BitmapImage(new System.Uri(wp.w.image, UriKind.Absolute));
+                }
+                catch(Exception ex) { } //no image
                 Titel.Text = wp.w.name;
                 InfoText.Text = wp.w.description;
-                this.wp = wp;
-                
+                this.wp = wp;  
             }
-
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

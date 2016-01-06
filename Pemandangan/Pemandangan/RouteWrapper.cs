@@ -11,12 +11,12 @@ namespace Pemandangan
     class RouteWrapper
     {
         public Frame frame { get;}
-        public Route route { get;}
+        public DataHandler datahandler { get;}
 
-        public RouteWrapper(Frame frame, Route route)
+        public RouteWrapper(Frame frame, DataHandler datahandler)
         {
             this.frame = frame;
-            this.route = route;
+            this.datahandler = datahandler;
         }
 
     }
