@@ -18,7 +18,6 @@ namespace Pemandangan.Model
         {
             try
             {
-                places.Add(1, new BitmapImage(new Uri("ms-appx: /Pictures/standbeeld.jpg", UriKind.Relative)));
                 places.Add(2, new BitmapImage(new Uri("/Pictures/standbeeld.jpg", UriKind.Relative)));
                 places.Add(3, new BitmapImage(new Uri("/Pictures/standbeeld.jpg", UriKind.Relative)));
                 places.Add(4, new BitmapImage(new Uri("/Pictures/standbeeld.jpg", UriKind.Relative)));
