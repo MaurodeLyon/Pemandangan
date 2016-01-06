@@ -8,6 +8,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -37,11 +38,12 @@ namespace Pemandangan
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             splitView.IsPaneOpen = !splitView.IsPaneOpen;
             if (SelectRoute.IsSelected)
             {
                 PageName.Text = "Select route";
-                myFrame.Navigate(typeof(RoutePage));
+                myFrame.Navigate(typeof(RoutePage),myFrame);
             }
             else if (Map.IsSelected)
             {

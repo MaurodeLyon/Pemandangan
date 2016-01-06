@@ -92,6 +92,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\route_data.txt" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +105,8 @@
     <Compile Include="Model\PlaceInfo.cs" />
     <Compile Include="Model\Route.cs" />
     <Compile Include="Model\RoutePoint.cs" />
+    <Compile Include="Model\Waypoint.cs" />
+    <Compile Include="RouteWrapper.cs" />
     <Compile Include="View\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
@@ -134,7 +137,7 @@
     <None Include="Pemandangan_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Pictures\standbeeld.jpg" />
+    <Content Include="Assets\test01.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -178,7 +181,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
