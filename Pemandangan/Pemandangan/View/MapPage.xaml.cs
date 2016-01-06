@@ -303,8 +303,15 @@ namespace Pemandangan.View
             }
 
 
+            getMap(tempList);
+
+        }
+
+        private async void getMap(List<Geopoint> list)
+        {
+
             MapRouteFinderResult routeResult
-                = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(tempList);
+                = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(list);
 
             MapRoute b = routeResult.Route;
 
@@ -320,7 +327,15 @@ namespace Pemandangan.View
                 ZIndex = 2
             };
 
-            line.Path = new Geopath(b.Path.Positions);
+            if(b!=null)
+            {
+                line.Path = new Geopath(b.Path.Positions);
+            }
+            else
+            {
+                getMap(list);
+                return;
+            }
 
             map.MapElements.Add(line);
         }
