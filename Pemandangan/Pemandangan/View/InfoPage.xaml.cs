@@ -50,7 +50,11 @@ namespace Pemandangan.View
                 }
                 catch(Exception ex) { } //no image
                 Titel.Text = wp.w.name;
-                InfoText.Text = wp.w.description;
+                try
+                {
+                    InfoText.Text = wp.w.description;
+                }
+                catch (NullReferenceException ex) { }
                 this.wp = wp;  
             }
         }
