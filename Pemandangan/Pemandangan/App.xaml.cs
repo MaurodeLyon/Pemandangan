@@ -36,11 +36,7 @@ namespace Pemandangan
             ApplicationLanguages.PrimaryLanguageOverride = "nl";
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-
-
         }
-
-        
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -49,7 +45,6 @@ namespace Pemandangan
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {

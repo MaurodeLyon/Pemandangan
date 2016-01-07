@@ -1,4 +1,5 @@
-﻿using Pemandangan.View;
+﻿using Pemandangan.Model;
+using Pemandangan.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,9 +34,7 @@ namespace Pemandangan
             myFrame.Navigate(typeof(LanguagePage),RootFrame);
             //startUpLanguage();
         }
-
         
-
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             splitView.IsPaneOpen = !splitView.IsPaneOpen;
@@ -43,7 +42,6 @@ namespace Pemandangan
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             splitView.IsPaneOpen = !splitView.IsPaneOpen;
             if (SelectRoute.IsSelected)
             {
@@ -53,7 +51,7 @@ namespace Pemandangan
             else if (Map.IsSelected)
             {
                 PageName.Text = "Map";
-                myFrame.Navigate(typeof(MapPage));
+                myFrame.Navigate(typeof(MapPage),new Tuple<Frame,DataHandler>(myFrame,null));
             }
             else if (Help.IsSelected)
             {

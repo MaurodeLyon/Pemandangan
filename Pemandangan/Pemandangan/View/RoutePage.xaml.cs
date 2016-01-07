@@ -23,37 +23,28 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class RoutePage : Page
     {
-
         public List<Route> RouteList { get; set; } = new List<Route>();
-
         private Frame myframe;
-        private DataHandler datandler;
+        private DataHandler dataHandler;
 
         public RoutePage()
         {
             this.InitializeComponent();
-
-            //test routes
-            datandler = new DataHandler();
-            datandler.LoadRoutes();
-
-            Route route = datandler.lastRoute;
-
-            this.RouteList.Add(route);
+            dataHandler = new DataHandler();
+            dataHandler.LoadRoutes();
+            RouteList.Add(dataHandler.lastRoute);
         }
 
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
-            Route route = (Route) e.ClickedItem;
-            myframe.Navigate(typeof(MapPage), new RouteWrapper(myframe, datandler));
+            dataHandler.lastRoute = (Route)e.ClickedItem;
+            myframe.Navigate(typeof(MapPage), new Tuple<Frame,DataHandler>(myframe,dataHandler));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            myframe = (Frame) e.Parameter;
-
+            myframe = (Frame)e.Parameter;
         }
-    } 
+    }
 }

@@ -26,14 +26,16 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class LanguagePage : Page
     {
-        ObservableCollection<string> list;
-        private Frame frame;
         public ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
+
+        ObservableCollection<string> list;
+
+        private Frame frame;
 
         public LanguagePage()
         {
             list = new ObservableCollection<string>();
-            String lang = (String)LOCAL_SETTINGS.Values["Language"];
+            string lang = (string)LOCAL_SETTINGS.Values["Language"];
             if (lang != null && lang == "nl")
             {
                 list.Add("Nederlands");
@@ -45,10 +47,9 @@ namespace Pemandangan.View
                 list.Add("English");
             }
             this.InitializeComponent();
-
         }
 
-        private async void loadLanguage(String code)
+        private async void loadLanguage(string code)
         {
             ApplicationLanguages.PrimaryLanguageOverride = code;
             await Task.Delay(TimeSpan.FromMilliseconds(100));
