@@ -38,17 +38,18 @@ namespace Pemandangan.View
         private MapPolyline LatestwalkedLine;
         private List<Geopoint> walkedRoute;
 
-        private StorageFile waypoint;
-        private StorageFile seen;
         private Route route;
         private RouteWrapper wrap;
         private Uri uri1;
         private Uri uri2;
         private Uri person;
+        private bool mapBuild = false;
+        private DataHandler datahandler;
 
         public MapPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
             walkedRoute = new List<Geopoint>();
             loadAssets();
         }
@@ -58,32 +59,36 @@ namespace Pemandangan.View
             uri1 = new System.Uri("ms-appx:///Assets/NotSeenWayPoint.png");
             uri2 = new System.Uri("ms-appx:///Assets/SeenWayPoint.png");
             person = new Uri("ms-appx:///Assets/Person.png");
-            waypoint = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1);
-            seen = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri2);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             wrap = (RouteWrapper)e.Parameter;
-            route = wrap.route;
-            setupGeofencing();
-            buildMap();
-
-            if (geolocator == null)
+            try
             {
-                geolocator = new Geolocator
-                {
-                    DesiredAccuracy = PositionAccuracy.High,
-                    MovementThreshold = 1
-                };
-
-                geolocator.PositionChanged += GeolocatorPositionChanged;
-                //GeofenceMonitor.Current.GeofenceStateChanged += GeofenceStateChanged;
+                datahandler = wrap.datahandler;
+                route = datahandler.lastRoute;
             }
-            Geoposition d = await geolocator.GetGeopositionAsync();
+            catch (NullReferenceException ex) { }
+            if (!mapBuild)
+            {
+                setupGeofencing();
+                buildMap();
+                if (geolocator == null)
+                {
+                    geolocator = new Geolocator
+                    {
+                        DesiredAccuracy = PositionAccuracy.High,
+                        MovementThreshold = 1
+                    };
 
-            var pos = new Geopoint(d.Coordinate.Point.Position);
+                    geolocator.PositionChanged += GeolocatorPositionChanged;
+                    //GeofenceMonitor.Current.GeofenceStateChanged += GeofenceStateChanged;
+                }
+                Geoposition d = await geolocator.GetGeopositionAsync();
+
+                var pos = new Geopoint(d.Coordinate.Point.Position);
 
             currentPos = new MapIcon();
             currentPos.Location = pos;
@@ -94,9 +99,6 @@ namespace Pemandangan.View
             map.MapElements.Add(currentPos);
             
             await map.TrySetViewAsync(pos, 17);
-
-            
-            
         }
 
         
@@ -108,8 +110,7 @@ namespace Pemandangan.View
 
             var location = await locator.GetGeopositionAsync().AsTask();
 
-            Geofence fence
-             = GeofenceMonitor.Current.Geofences.FirstOrDefault(gf => gf.Id == "currentLoc");
+            Geofence fence = GeofenceMonitor.Current.Geofences.FirstOrDefault(gf => gf.Id == "currentLoc");
 
             if (fence == null)
             {
@@ -273,7 +274,7 @@ namespace Pemandangan.View
                 {
                     desc = w.description;
 
-                    //wrap.frame.Navigate(typeof(InfoPage), w);
+                    wrap.frame.Navigate(typeof(InfoPage), new WaypointWrapper(w,wrap.frame));
                 }
             }
 
@@ -306,6 +307,7 @@ namespace Pemandangan.View
 
 
             getMap(tempList);
+            mapBuild = true;
 
         }
 

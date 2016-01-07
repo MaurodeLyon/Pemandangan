@@ -8,16 +8,15 @@ using Windows.UI.Xaml.Controls;
 
 namespace Pemandangan
 {
-    class RouteWrapper
+    class WaypointWrapper
     {
-        public Frame frame { get;}
-        public DataHandler datahandler { get;}
+        public Frame frame { get; }
+        public Waypoint w { get; }
 
-        public RouteWrapper(Frame frame, DataHandler datahandler)
+        public WaypointWrapper(Waypoint w, Frame frame)
         {
+            this.w = w;
             this.frame = frame;
-            this.datahandler = datahandler;
         }
-
     }
 }

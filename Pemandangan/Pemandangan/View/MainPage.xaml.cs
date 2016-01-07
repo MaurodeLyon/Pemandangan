@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -28,8 +30,11 @@ namespace Pemandangan
         {
             this.InitializeComponent();
             PageName.Text = "Language";
-            myFrame.Navigate(typeof(InfoPage));
+            myFrame.Navigate(typeof(LanguagePage),RootFrame);
+            //startUpLanguage();
         }
+
+        
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
@@ -58,7 +63,7 @@ namespace Pemandangan
             else if (Language.IsSelected)
             {
                 PageName.Text = "Language";
-                myFrame.Navigate(typeof(LanguagePage));
+                myFrame.Navigate(typeof(LanguagePage),RootFrame);
             }
             else if (RouteReset.IsSelected)
             {

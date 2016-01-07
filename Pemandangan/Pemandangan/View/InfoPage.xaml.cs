@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pemandangan.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,21 +19,46 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Pemandangan.View
 {
-    
+
     public sealed partial class InfoPage : Page
     {
         Model.PlaceInfo info = new Model.PlaceInfo();
 
+        private WaypointWrapper wp;
 
         public InfoPage()
         {
-            try {
+            this.InitializeComponent();
+            try
+            {
                 Picture.Source = info.getPlace(1);
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
 
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if(e.Parameter != null)
+            {
+                WaypointWrapper wp = (WaypointWrapper)e.Parameter;
+                try {
+                    Picture.Source = new BitmapImage(new System.Uri(wp.w.image, UriKind.Absolute));
+                }
+                catch(Exception ex) { } //no image
+                Titel.Text = wp.w.name;
+                InfoText.Text = wp.w.description;
+                this.wp = wp;  
+            }
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            if(wp.frame.CanGoBack)
+            wp.frame.GoBack();
         }
     }
 }

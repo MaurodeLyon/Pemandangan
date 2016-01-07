@@ -27,16 +27,17 @@ namespace Pemandangan.View
         public List<Route> RouteList { get; set; } = new List<Route>();
 
         private Frame myframe;
+        private DataHandler datandler;
 
         public RoutePage()
         {
             this.InitializeComponent();
 
             //test routes
-            DataHandler handler = new DataHandler();
-            handler.LoadRoutes();
+            datandler = new DataHandler();
+            datandler.LoadRoutes();
 
-            Route route = handler.lastRoute;
+            Route route = datandler.lastRoute;
 
             this.RouteList.Add(route);
         }
@@ -44,7 +45,7 @@ namespace Pemandangan.View
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             Route route = (Route) e.ClickedItem;
-            myframe.Navigate(typeof(MapPage), new RouteWrapper(myframe, route));
+            myframe.Navigate(typeof(MapPage), new RouteWrapper(myframe, datandler));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
