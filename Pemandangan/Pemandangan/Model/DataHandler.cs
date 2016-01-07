@@ -19,7 +19,7 @@ namespace Pemandangan.Model
             //LoadRoutes();
         }
 
-        public async void LoadRoutes()
+        public void LoadRoutes()
         {
             string jsonString = "";
             try
