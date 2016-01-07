@@ -74,7 +74,7 @@ namespace Pemandangan.View
             frame = data.Item1;
             if (data.Item2 != null)
                 dataHandler = data.Item2;
-           
+
             drawCurrentPosition();
             if (!mapBuild && dataHandler != null)
             {
@@ -144,7 +144,7 @@ namespace Pemandangan.View
                                     {
                                         MapIcon icon = (MapIcon)me;
                                         if (icon.Title == geofence.Id)
-                                            icon.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri2);
+                                            icon.Image = await StorageFile.GetFileFromApplicationUriAsync(uri2);
                                     }
                             });
                         }
@@ -212,7 +212,7 @@ namespace Pemandangan.View
 
             foreach (Waypoint w in route.waypoints)
                 if (w.name == desc)
-                    frame.Navigate(typeof(InfoPage), new WaypointWrapper(w, frame));
+                    frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
         }
 
         public void buildMap()

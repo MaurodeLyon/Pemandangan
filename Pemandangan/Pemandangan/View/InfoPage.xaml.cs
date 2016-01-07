@@ -24,7 +24,8 @@ namespace Pemandangan.View
     {
         Model.PlaceInfo info = new Model.PlaceInfo();
 
-        private WaypointWrapper wp;
+        private Waypoint waypoint;
+        private Frame frame;
 
         public InfoPage()
         {
@@ -42,27 +43,25 @@ namespace Pemandangan.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if(e.Parameter != null)
+            Tuple<Waypoint, Frame> data = (Tuple<Waypoint, Frame>)e.Parameter;
+            waypoint = data.Item1;
+            frame = data.Item2;
+
+            if (e.Parameter != null)
             {
-                WaypointWrapper wp = (WaypointWrapper)e.Parameter;
-                try {
-                    Picture.Source = new BitmapImage(new System.Uri(wp.w.image, UriKind.Absolute));
-                }
-                catch(Exception ex) { } //no image
-                Titel.Text = wp.w.name;
-                try
+                if (waypoint.image != null)
                 {
-                    InfoText.Text = wp.w.description;
+                    Picture.Source = new BitmapImage(new System.Uri(waypoint.image, UriKind.Absolute));
                 }
-                catch (NullReferenceException ex) { }
-                this.wp = wp;  
+                Titel.Text = waypoint.name;
+                InfoText.Text = waypoint.description;
             }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if(wp.frame.CanGoBack)
-            wp.frame.GoBack();
+            if (frame.CanGoBack)
+                frame.GoBack();
         }
     }
 }
