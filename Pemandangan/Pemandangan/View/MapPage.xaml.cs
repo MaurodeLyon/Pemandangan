@@ -71,7 +71,7 @@ namespace Pemandangan.View
                 route = datahandler.lastRoute;
             }
             catch (NullReferenceException ex) { }
-            if (!mapBuild)
+            if (!mapBuild && datahandler != null)
             {
                 setupGeofencing();
                 buildMap();
