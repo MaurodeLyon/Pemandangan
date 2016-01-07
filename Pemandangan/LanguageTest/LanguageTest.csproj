@@ -4,42 +4,20 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{A800303F-4623-4355-B68A-617EAD4684B0}</ProjectGuid>
+    <ProjectGuid>{1E8BD4C1-22E8-400D-97E0-C880540AB6CD}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pemandangan</RootNamespace>
-    <AssemblyName>Pemandangan</AssemblyName>
-    <DefaultLanguage>nl-NL</DefaultLanguage>
+    <RootNamespace>LanguageTest</RootNamespace>
+    <AssemblyName>LanguageTest</AssemblyName>
+    <DefaultLanguage>en</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <EnableDotNetNativeCompatibleProfile>true</EnableDotNetNativeCompatibleProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Pemandangan_TemporaryKey.pfx</PackageCertificateKeyFile>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <PackageCertificateKeyFile>LanguageTest_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -87,40 +65,34 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\NotSeenWayPoint.png" />
-    <Content Include="Assets\Person.png" />
-    <Content Include="Assets\Pictures\1.jpg" />
-    <Content Include="Assets\Pictures\10.jpg" />
-    <Content Include="Assets\Pictures\11.jpg" />
-    <Content Include="Assets\Pictures\12.jpg" />
-    <Content Include="Assets\Pictures\13.jpg" />
-    <Content Include="Assets\Pictures\14.jpg" />
-    <Content Include="Assets\Pictures\15.jpg" />
-    <Content Include="Assets\Pictures\16.jpg" />
-    <Content Include="Assets\Pictures\17.jpg" />
-    <Content Include="Assets\Pictures\18.jpg" />
-    <Content Include="Assets\Pictures\19.jpg" />
-    <Content Include="Assets\Pictures\2.jpg" />
-    <Content Include="Assets\Pictures\20.jpg" />
-    <Content Include="Assets\Pictures\21.jpg" />
-    <Content Include="Assets\Pictures\22.jpg" />
-    <Content Include="Assets\Pictures\23.jpg" />
-    <Content Include="Assets\Pictures\24.jpg" />
-    <Content Include="Assets\Pictures\25.jpg" />
-    <Content Include="Assets\Pictures\26.jpg" />
-    <Content Include="Assets\Pictures\3.jpg" />
-    <Content Include="Assets\Pictures\4.jpg" />
-    <Content Include="Assets\Pictures\5.jpg" />
-    <Content Include="Assets\Pictures\6.jpg" />
-    <Content Include="Assets\Pictures\7.jpg" />
-    <Content Include="Assets\Pictures\8.jpg" />
-    <Content Include="Assets\Pictures\9.jpg" />
-    <Content Include="Assets\route_data.txt" />
     <None Include="project.json" />
     <PRIResource Include="Resources\nl\Resources.resw" />
     <PRIResource Include="Resources\en\Resources.resw" />
@@ -129,46 +101,18 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\DataHandler.cs" />
-    <Compile Include="Model\Language.cs" />
-    <Compile Include="Model\Place.cs" />
-    <Compile Include="Model\PlaceInfo.cs" />
-    <Compile Include="Model\Route.cs" />
-    <Compile Include="Model\RoutePoint.cs" />
-    <Compile Include="Model\Waypoint.cs" />
-    <Compile Include="RouteWrapper.cs" />
-    <Compile Include="View\HelpPage.xaml.cs">
-      <DependentUpon>HelpPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\InfoPage.xaml.cs">
-      <DependentUpon>InfoPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\LanguagePage.xaml.cs">
-      <DependentUpon>LanguagePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MainPage.xaml.cs">
+    <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\MapPage.xaml.cs">
-      <DependentUpon>MapPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ResetPage.xaml.cs">
-      <DependentUpon>ResetPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\RoutePage.xaml.cs">
-      <DependentUpon>RoutePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WaypointWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Pemandangan_TemporaryKey.pfx" />
+    <None Include="LanguageTest_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\SeenWayPoint.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -183,37 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="View\HelpPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\InfoPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\LanguagePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MainPage.xaml">
+    <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\MapPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ResetPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\RoutePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
