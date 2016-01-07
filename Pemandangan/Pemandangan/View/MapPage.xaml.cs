@@ -72,15 +72,9 @@ namespace Pemandangan.View
             base.OnNavigatedTo(e);
             Tuple<Frame, DataHandler> data = (Tuple<Frame, DataHandler>)e.Parameter;
             frame = data.Item1;
-            if (data.Item2 == null)
-            {
-                dataHandler.lastRoute = null;
-            }
-            else
-            {
+            if (data.Item2 != null)
                 dataHandler = data.Item2;
-            }
-
+           
             drawCurrentPosition();
             if (!mapBuild && dataHandler != null)
             {
