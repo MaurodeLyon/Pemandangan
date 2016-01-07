@@ -11,12 +11,10 @@
         <StackPanel x:Name="LAYOUTROOT" Orientation="Vertical">
            
             <StackPanel Orientation="Horizontal" Margin="0,20">
-                <TextBlock x:Name="Choose" Text="Kies een taal" x:Uid="Choose"/>
+                <TextBlock x:Name="Choose" Text="Choose a language" x:Uid="Choose"/>
                 <ComboBox x:Name="combo" Margin="15,0" ItemsSource="{x:Bind list}" SelectionChanged="ListBox_SelectionChanged" Width="150" />
             </StackPanel>
-            
-            
-            
+
         </StackPanel>
             
             

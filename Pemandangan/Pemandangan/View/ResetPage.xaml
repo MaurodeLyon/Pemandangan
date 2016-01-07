@@ -9,10 +9,8 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel VerticalAlignment="Center">
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20">
-                Are you sure you want to reset the route?
-            </TextBlock>
-            <Button Content="Yes" Width="365" HorizontalAlignment="Center" Click="Button_Click"/>
+            <TextBlock x:Uid="ResetRouteConfirmation" Text="Are you sure you want to reset the route?" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20"/>
+            <Button Content="Yes" x:Uid="ButtonYes" Width="365" HorizontalAlignment="Center" Click="Button_Click"/>
         </StackPanel>
     </Grid>
 </Page>

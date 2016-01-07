@@ -22,31 +22,31 @@
                     <ListBoxItem Name="SelectRoute">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE826;" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock Text="  Select route" FontSize="24"/>
+                            <TextBlock x:Uid="SelectRoute" Text="  Select route" FontSize="24"/>
                         </StackPanel>
                     </ListBoxItem>
-                    <ListBoxItem Name="Map">
+                        <ListBoxItem Name="Map">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE809;" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock Text="  Map" FontSize="24"/>
+                            <TextBlock x:Uid="MapMP" Text="  Map" FontSize="24"/>
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="Help">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text=" ?" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock Text="   Help" FontSize="24"/>
+                            <TextBlock x:Uid="Help" Text="   Help" FontSize="24"/>
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="Language">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE128;" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock Text="  Language" FontSize="24"/>
+                                <TextBlock x:Uid="Language" Text="  Language" FontSize="24"/>
                         </StackPanel>
                     </ListBoxItem>
                     <ListBoxItem Name="RouteReset">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE777;" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock Text="  Route reset" FontSize="24"/>
+                                <TextBlock x:Uid="RouteReset" Text="  Route reset" FontSize="24"/>
                         </StackPanel>
                     </ListBoxItem>
                 </ListBox>

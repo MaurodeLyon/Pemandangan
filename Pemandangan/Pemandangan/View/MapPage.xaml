@@ -10,7 +10,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Maps:MapControl x:Name="map" Grid.Row="0" MapServiceToken="xdjvl604ZtZCe1wheFS2~o-Bye7QTed2nnchXiDa-tg~Atj9MHFiSWVh4rqldt52UTjuwLMeNMk-KCCylz2MsegVrhkl1D0Nv9fC5url55_g" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZoomInteractionMode="GestureAndControl" TiltInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl" MapElementClick="map_MapElementClick" />
+        <Maps:MapControl x:Uid="Map" x:Name="map" Grid.Row="0" MapServiceToken="xdjvl604ZtZCe1wheFS2~o-Bye7QTed2nnchXiDa-tg~Atj9MHFiSWVh4rqldt52UTjuwLMeNMk-KCCylz2MsegVrhkl1D0Nv9fC5url55_g" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ZoomInteractionMode="GestureAndControl" TiltInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl" MapElementClick="map_MapElementClick" />
 
     </Grid>
 </Page>
