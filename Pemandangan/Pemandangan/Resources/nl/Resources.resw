@@ -129,9 +129,6 @@
   <data name="Language.Text" xml:space="preserve">
     <value>  Taal</value>
   </data>
-  <data name="Map.Text" xml:space="preserve">
-    <value>Kaart</value>
-  </data>
   <data name="MapMP.Text" xml:space="preserve">
     <value>  Kaart</value>
   </data>

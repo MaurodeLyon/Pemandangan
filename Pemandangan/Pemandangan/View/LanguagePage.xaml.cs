@@ -28,7 +28,7 @@ namespace Pemandangan.View
     {
         ObservableCollection<String> list;
         private Frame frame;
-        public ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
+        public static ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
 
         public LanguagePage()
         {
