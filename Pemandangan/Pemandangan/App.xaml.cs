@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pemandangan.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -36,6 +37,7 @@ namespace Pemandangan
             ApplicationLanguages.PrimaryLanguageOverride = "nl";
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            LanguagePage.LOCAL_SETTINGS.Values["Language"] = "nl";
         }
 
         /// <summary>

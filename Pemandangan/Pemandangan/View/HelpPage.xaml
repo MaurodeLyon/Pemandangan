@@ -9,10 +9,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <ScrollViewer>
-            <TextBlock TextWrapping="WrapWholeWords" Name="helpText"/>
+            <TextBlock Margin="4,0,0,4" TextWrapping="WrapWholeWords" Name="helpText"/>
         </ScrollViewer>
-
-
-
     </Grid>
 </Page>

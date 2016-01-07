@@ -26,7 +26,9 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class LanguagePage : Page
     {
-        public ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
+        ObservableCollection<String> list;
+        private Frame frame;
+        public static ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
 
         ObservableCollection<string> list;
 

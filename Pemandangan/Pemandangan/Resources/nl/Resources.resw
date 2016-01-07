@@ -117,7 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Ja</value>
+  </data>
   <data name="Choose.Text" xml:space="preserve">
     <value>Kies een taal</value>
+  </data>
+  <data name="Help.Text" xml:space="preserve">
+    <value>  Help</value>
+  </data>
+  <data name="Language.Text" xml:space="preserve">
+    <value>  Taal</value>
+  </data>
+  <data name="MapMP.Text" xml:space="preserve">
+    <value>  Kaart</value>
+  </data>
+  <data name="ResetRouteConfirmation.Text" xml:space="preserve">
+    <value>Weet u zeker dat u de route wilt reseten?</value>
+  </data>
+  <data name="RouteReset.Text" xml:space="preserve">
+    <value>  Reset Route</value>
+  </data>
+  <data name="SelectRoute.Text" xml:space="preserve">
+    <value>  Route</value>
   </data>
 </root>
