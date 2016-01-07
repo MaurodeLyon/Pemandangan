@@ -46,7 +46,6 @@ namespace Pemandangan.View
         private Uri person;
         private bool mapBuild = false;
         private DataHandler dataHandler;
-        private bool isGPSDataAvailable;
         private bool infoOpen = false;
 
         public MapPage()
@@ -62,69 +61,61 @@ namespace Pemandangan.View
             };
             geolocator.PositionChanged += GeolocatorPositionChanged;
             geolocator.StatusChanged += Geolocator_StatusChanged;
-            isGPSDataAvailable = true;
         }
 
-        private async void Geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
+        private void Geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
         {
-            MessageDialog dialog;
             string lang = (string)LanguagePage.LOCAL_SETTINGS.Values["Language"];
             switch (args.Status)
             {
                 case PositionStatus.Ready:
-                    isGPSDataAvailable = true;
                     break;
                 case PositionStatus.Initializing:
-                    isGPSDataAvailable = true;
                     break;
                 case PositionStatus.NoData:
                     if (lang == "en")
                     {
-                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                        pushNot("GPS Status", "Can't receive GPS data.");
                     }
                     else if (lang == "nl")
                     {
-                        dialog = new MessageDialog("Kan geen GPS data binnen krijgen.", "GPS Status");
+                        pushNot("Kan geen GPS data binnen krijgen.", "GPS Status");
                     }
                     else
                     {
-                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                        pushNot("Can't receive GPS data.", "GPS Status");
                     }
-
-                    await dialog.ShowAsync();
+                    
                     break;
                 case PositionStatus.Disabled:
                     if (lang == "en")
                     {
-                        dialog = new MessageDialog("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
+                        pushNot("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
                     }
                     else if (lang == "nl")
                     {
-                        dialog = new MessageDialog("GPS is uitgeschakeld. schakel GPS in en herselecteer uw route", "GPS Status");
+                        pushNot("GPS is uitgeschakeld. schakel GPS in en herselecteer uw route", "GPS Status");
                     }
                     else
                     {
-                        dialog = new MessageDialog("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
+                        pushNot("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
                     }
-                    await dialog.ShowAsync();
                     break;
                 case PositionStatus.NotInitialized:
                     break;
                 case PositionStatus.NotAvailable:
                     if (lang == "en")
                     {
-                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                        pushNot("Can't receive GPS data.", "GPS Status");
                     }
                     else if (lang == "nl")
                     {
-                        dialog = new MessageDialog("Kan geen GPS data binnen krijgen.", "GPS Status");
+                        pushNot("Kan geen GPS data binnen krijgen.", "GPS Status");
                     }
                     else
                     {
-                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                        pushNot("Can't receive GPS data.", "GPS Status");
                     }
-
-                    await dialog.ShowAsync();
                     break;
                 default:
                     break;
@@ -146,7 +137,7 @@ namespace Pemandangan.View
             if (data.Item2 != null)
                 dataHandler = data.Item2;
 
-            if (isGPSDataAvailable && !infoOpen)
+            if (geolocator.LocationStatus == PositionStatus.Ready && !infoOpen)
             {
                 drawCurrentPosition();
                 if (!mapBuild && dataHandler != null)
