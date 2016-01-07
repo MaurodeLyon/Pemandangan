@@ -108,7 +108,7 @@ namespace Pemandangan
             else if (RouteReset.IsSelected)
             {
                 PageName.Text = "Route Reset";
-                myFrame.Navigate(typeof(ResetPage));
+                myFrame.Navigate(typeof(ResetPage),RootFrame);
             }
         }
     }

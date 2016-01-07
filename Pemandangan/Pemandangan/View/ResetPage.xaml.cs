@@ -22,6 +22,8 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class ResetPage : Page
     {
+        private Frame frame;
+
         public ResetPage()
         {
             this.InitializeComponent();
@@ -30,7 +32,14 @@ namespace Pemandangan.View
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            frame.Navigate(typeof(MainPage));
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            frame = (Frame)e.Parameter;
         }
     }
 }
