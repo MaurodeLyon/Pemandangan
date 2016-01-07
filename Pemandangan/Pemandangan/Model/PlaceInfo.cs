@@ -24,7 +24,7 @@ namespace Pemandangan.Model
             }
             catch (ArgumentException ex)
             {
-
+                ex.ToString();
             }
 
         }
@@ -35,8 +35,9 @@ namespace Pemandangan.Model
             {
                 return places[key];
             }
-            catch (KeyNotFoundException ex)
+            catch (Exception e)
             {
+                e.ToString();
                 return null;
             }
         }

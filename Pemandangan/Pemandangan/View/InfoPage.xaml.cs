@@ -36,7 +36,7 @@ namespace Pemandangan.View
             }
             catch (NullReferenceException ex)
             {
-
+                ex.ToString();
             }
         }
 
