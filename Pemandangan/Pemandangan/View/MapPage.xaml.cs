@@ -207,7 +207,6 @@ namespace Pemandangan.View
             {
                 MapIcon mapIcon = (MapIcon)args.MapElements.First();
                 desc = mapIcon.Title;
-                pushNot("Waypoint nearby!", desc);
             }
 
             foreach (Waypoint w in route.waypoints)
