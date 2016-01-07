@@ -8,19 +8,17 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel x:Name="LAYOUTROOT" Orientation="Vertical">
-           
-            <StackPanel Orientation="Horizontal" Margin="0,20">
-                <TextBlock x:Name="Choose" Text="Kies een taal" x:Uid="Choose"/>
-                <ComboBox x:Name="combo" Margin="15,0" ItemsSource="{x:Bind list}" SelectionChanged="ListBox_SelectionChanged" Width="150" />
-            </StackPanel>
-            
-            
-            
-        </StackPanel>
-            
-            
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
+        <TextBlock Grid.Row="0" x:Name="Choose" Text="Kies een taal" x:Uid="Choose" HorizontalAlignment="Center"/>
+
+        <ListView Grid.Row="1" ItemsSource="{x:Bind list}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollMode="Enabled" IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick">
+            <ListView>
+                <TextBlock x:Name="language" Height="25"  Text="{x:Bind list}" FontSize="20"/>
+            </ListView>
+        </ListView>
     </Grid>
 </Page>

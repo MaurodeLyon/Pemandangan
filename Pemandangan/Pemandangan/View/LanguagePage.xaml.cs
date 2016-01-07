@@ -26,7 +26,7 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class LanguagePage : Page
     {
-        ObservableCollection<String> list;
+        ObservableCollection<string> list;
         private Frame frame;
         public ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
 
@@ -45,42 +45,7 @@ namespace Pemandangan.View
                 list.Add("English");
             }
             this.InitializeComponent();
-            
-        }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox box = (ComboBox)sender;
-            String lang = (String) box.SelectedItem;
-
-            if ((String)LOCAL_SETTINGS.Values["Language"] == "nl")
-            {
-                switch (lang)
-                {
-                    case "Nederlands":
-                        loadLanguage("nl");
-                        LOCAL_SETTINGS.Values["Language"] = "nl";
-                        break;
-                    case "Engels":
-                        loadLanguage("en");
-                        LOCAL_SETTINGS.Values["Language"] = "en";
-                        break;
-                }
-            }
-            else
-            {
-                switch (lang)
-                {
-                    case "Dutch":
-                        loadLanguage("nl");
-                        LOCAL_SETTINGS.Values["Language"] = "nl";
-                        break;
-                    case "English":
-                        loadLanguage("en");
-                        LOCAL_SETTINGS.Values["Language"] = "en";
-                        break;
-                }
-            }
         }
 
         private async void loadLanguage(String code)
@@ -94,6 +59,29 @@ namespace Pemandangan.View
         {
             base.OnNavigatedTo(e);
             frame = (Frame)e.Parameter;
+        }
+
+        private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            switch (e.ClickedItem.ToString())
+            {
+                case "Nederlands":
+                    loadLanguage("nl");
+                    LOCAL_SETTINGS.Values["Language"] = "nl";
+                    break;
+                case "Dutch":
+                    loadLanguage("nl");
+                    LOCAL_SETTINGS.Values["Language"] = "nl";
+                    break;
+                case "Engels":
+                    loadLanguage("en");
+                    LOCAL_SETTINGS.Values["Language"] = "en";
+                    break;
+                case "English":
+                    loadLanguage("en");
+                    LOCAL_SETTINGS.Values["Language"] = "en";
+                    break;
+            }
         }
     }
 }

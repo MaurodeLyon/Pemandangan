@@ -8,15 +8,18 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
-        <ScrollViewer VerticalScrollMode="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto">
             <StackPanel>
                 <Image Name="Picture" Width="Auto" Height="Auto" MaxHeight="360" MaxWidth="360" VerticalAlignment="Top" HorizontalAlignment="Center" Stretch="Fill"/>
-                <TextBlock x:Name="Titel" Margin="0,0,0,0" HorizontalAlignment="Center"  FontSize="36"  />
-                <TextBlock x:Name="InfoText" HorizontalAlignment="Center" Width="Auto" Height="Auto" TextWrapping="Wrap" Margin="0,0,0,0" CanDrag="True"  />
-                <Button x:Name="button" Content="Terug" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="button_Click"/>
+                <TextBlock x:Name="Titel" Margin="0,0,0,0" HorizontalAlignment="Center"  FontSize="36" TextWrapping="WrapWholeWords" />
+                <TextBlock x:Name="InfoText" HorizontalAlignment="Center" Width="Auto" Height="Auto" TextWrapping="Wrap" Margin="0,0,0,0" CanDrag="True" />
             </StackPanel>
         </ScrollViewer>
-        
+        <Button Grid.Row="1" x:Name="button" FontFamily="Segoe MDL2 Assets" Content="&#xE96E;" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="button_Click"/>
+
     </Grid>
 </Page>
