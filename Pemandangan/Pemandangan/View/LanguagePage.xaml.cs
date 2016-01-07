@@ -87,20 +87,13 @@ namespace Pemandangan.View
         {
             ApplicationLanguages.PrimaryLanguageOverride = code;
             await Task.Delay(TimeSpan.FromMilliseconds(100));
-            //Frame.Navigate(typeof(MainPage));
             frame.Navigate(typeof(MainPage));
-            
-            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
             frame = (Frame)e.Parameter;
-
-            ;
-            
         }
     }
 }
