@@ -14,6 +14,7 @@ using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -45,6 +46,7 @@ namespace Pemandangan.View
         private Uri person;
         private bool mapBuild = false;
         private DataHandler dataHandler;
+        private bool isGPSDataAvailable;
 
         public MapPage()
         {
@@ -58,6 +60,74 @@ namespace Pemandangan.View
                 MovementThreshold = 1
             };
             geolocator.PositionChanged += GeolocatorPositionChanged;
+            geolocator.StatusChanged += Geolocator_StatusChanged;
+            isGPSDataAvailable = true;
+        }
+
+        private async void Geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
+        {
+            MessageDialog dialog;
+            string lang = (string)LanguagePage.LOCAL_SETTINGS.Values["Language"];
+            switch (args.Status)
+            {
+                case PositionStatus.Ready:
+                    isGPSDataAvailable = true;
+                    break;
+                case PositionStatus.Initializing:
+                    isGPSDataAvailable = true;
+                    break;
+                case PositionStatus.NoData:
+                    if (lang == "en")
+                    {
+                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                    }
+                    else if (lang == "nl")
+                    {
+                        dialog = new MessageDialog("Kan geen GPS data binnen krijgen.", "GPS Status");
+                    }
+                    else
+                    {
+                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                    }
+
+                    await dialog.ShowAsync();
+                    break;
+                case PositionStatus.Disabled:
+                    if (lang == "en")
+                    {
+                        dialog = new MessageDialog("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
+                    }
+                    else if (lang == "nl")
+                    {
+                        dialog = new MessageDialog("GPS is uitgeschakeld. schakel GPS in en herselecteer uw route", "GPS Status");
+                    }
+                    else
+                    {
+                        dialog = new MessageDialog("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
+                    }
+                    await dialog.ShowAsync();
+                    break;
+                case PositionStatus.NotInitialized:
+                    break;
+                case PositionStatus.NotAvailable:
+                    if (lang == "en")
+                    {
+                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                    }
+                    else if (lang == "nl")
+                    {
+                        dialog = new MessageDialog("Kan geen GPS data binnen krijgen.", "GPS Status");
+                    }
+                    else
+                    {
+                        dialog = new MessageDialog("Can't receive GPS data.", "GPS Status");
+                    }
+
+                    await dialog.ShowAsync();
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void loadAssets()
@@ -74,13 +144,15 @@ namespace Pemandangan.View
             frame = data.Item1;
             if (data.Item2 != null)
                 dataHandler = data.Item2;
-
-            drawCurrentPosition();
-            if (!mapBuild && dataHandler != null)
+            if (isGPSDataAvailable)
             {
-                route = dataHandler.lastRoute;
-                setupGeofencing();
-                buildMap();
+                drawCurrentPosition();
+                if (!mapBuild && dataHandler != null)
+                {
+                    route = dataHandler.lastRoute;
+                    setupGeofencing();
+                    buildMap();
+                }
             }
         }
 
@@ -208,10 +280,10 @@ namespace Pemandangan.View
                 MapIcon mapIcon = (MapIcon)args.MapElements.First();
                 desc = mapIcon.Title;
             }
-
-            foreach (Waypoint w in route.waypoints)
-                if (w.name == desc)
-                    frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
+            if (desc != "Current position")
+                foreach (Waypoint w in route.waypoints)
+                    if (w.name == desc)
+                        frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
         }
 
         public void buildMap()
