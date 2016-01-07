@@ -138,16 +138,14 @@ namespace Pemandangan.View
             person = new Uri("ms-appx:///Assets/Person.png");
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-
             Tuple<Frame, DataHandler> data = (Tuple<Frame, DataHandler>)e.Parameter;
             frame = data.Item1;
             if (data.Item2 != null)
-
                 dataHandler = data.Item2;
+
             if (isGPSDataAvailable && !infoOpen)
             {
                 drawCurrentPosition();
@@ -158,9 +156,8 @@ namespace Pemandangan.View
                     buildMap();
                 }
 
-            if (infoOpen)
-            {
-                infoOpen = false;
+                if (infoOpen)
+                    infoOpen = false;
                 
             }
         }
@@ -228,15 +225,11 @@ namespace Pemandangan.View
                                             map.MapElements.Clear();
                                             walkedRoute = new List<Geopoint>();
                                             map.MapElements.Add(currentPos);
-
-
                                         });
                                         return;
                                     }
                                 }
-                                    
-
-                           
+                            
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
                                 foreach (MapElement me in map.MapElements)
@@ -271,7 +264,7 @@ namespace Pemandangan.View
             await map.TrySetViewAsync(geoposition.Coordinate.Point, 17);
         }
 
-       
+
 
         public async void drawWalkedRoute()
         {
@@ -312,14 +305,14 @@ namespace Pemandangan.View
             }
 
             if (desc != "Current position")
-            foreach (Waypoint w in route.waypoints)
-                if (w.name == desc)
-                {
-                    frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
-                    infoOpen = true;
+                foreach (Waypoint w in route.waypoints)
+                    if (w.name == desc)
+                    {
+                        frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
+                        infoOpen = true;
 
-                }
-                    
+                    }
+
         }
 
         public void buildMap()
@@ -380,7 +373,7 @@ namespace Pemandangan.View
             });
         }
 
-        
+
 
         private void setupGeofences(Waypoint w)
         {
