@@ -8,10 +8,15 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Orientation="Vertical">
-            <Image Name="Picture" Width="Auto" Height="Auto" MaxHeight="360" MaxWidth="360" VerticalAlignment="Top" HorizontalAlignment="Center" Stretch="Fill"/>
-            <TextBlock Margin="0,0,0,0" HorizontalAlignment="Center"  Text="Man op paard" FontSize="36"  />
-            <TextBlock HorizontalAlignment="Center" Width="Auto" Height="Auto" TextWrapping="Wrap" Margin="0,0,0,0" Text="Dit is een man op een paard, hij heeft ook een erg mooi zwaard bij. Zijn paard heeft een mooie houding en hij ziet er erg stoer uit." />
-        </StackPanel>
+        
+        <ScrollViewer VerticalScrollMode="Auto">
+            <StackPanel>
+                <Image Name="Picture" Width="Auto" Height="Auto" MaxHeight="360" MaxWidth="360" VerticalAlignment="Top" HorizontalAlignment="Center" Stretch="Fill"/>
+                <TextBlock x:Name="Titel" Margin="0,0,0,0" HorizontalAlignment="Center"  FontSize="36"  />
+                <TextBlock x:Name="InfoText" HorizontalAlignment="Center" Width="Auto" Height="Auto" TextWrapping="Wrap" Margin="0,0,0,0" CanDrag="True"  />
+                <Button x:Name="button" Content="Terug" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="button_Click"/>
+            </StackPanel>
+        </ScrollViewer>
+        
     </Grid>
 </Page>
