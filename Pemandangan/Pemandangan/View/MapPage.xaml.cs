@@ -47,6 +47,7 @@ namespace Pemandangan.View
         private bool mapBuild = false;
         private DataHandler dataHandler;
         private bool isGPSDataAvailable;
+        private bool infoOpen = false;
 
         public MapPage()
         {
@@ -137,14 +138,17 @@ namespace Pemandangan.View
             person = new Uri("ms-appx:///Assets/Person.png");
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+
             Tuple<Frame, DataHandler> data = (Tuple<Frame, DataHandler>)e.Parameter;
             frame = data.Item1;
             if (data.Item2 != null)
+
                 dataHandler = data.Item2;
-            if (isGPSDataAvailable)
+            if (isGPSDataAvailable && !infoOpen)
             {
                 drawCurrentPosition();
                 if (!mapBuild && dataHandler != null)
@@ -153,6 +157,11 @@ namespace Pemandangan.View
                     setupGeofencing();
                     buildMap();
                 }
+
+            if (infoOpen)
+            {
+                infoOpen = false;
+                
             }
         }
 
@@ -166,7 +175,10 @@ namespace Pemandangan.View
             currentPos.Title = "Current position";
             currentPos.ZIndex = 5;
             currentPos.Image = await StorageFile.GetFileFromApplicationUriAsync(person);
-            map.MapElements.Add(currentPos);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                map.MapElements.Add(currentPos);
+            });
             await map.TrySetViewAsync(pos, 17);
         }
 
@@ -206,9 +218,25 @@ namespace Pemandangan.View
                             string desc = "";
                             foreach (Waypoint e in route.waypoints)
                                 if (geofence.Id == e.name)
+                                {
                                     desc = e.name;
+                                    pushNot("Waypoint Nearby", desc);
+                                    if (geofence.Id == "Einde stadswandeling")
+                                    {
+                                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                        {
+                                            map.MapElements.Clear();
+                                            walkedRoute = new List<Geopoint>();
+                                            map.MapElements.Add(currentPos);
 
-                            pushNot("Waypoint Nearby", desc);
+
+                                        });
+                                        return;
+                                    }
+                                }
+                                    
+
+                           
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
                                 foreach (MapElement me in map.MapElements)
@@ -242,6 +270,8 @@ namespace Pemandangan.View
             drawWalkedRoute();
             await map.TrySetViewAsync(geoposition.Coordinate.Point, 17);
         }
+
+       
 
         public async void drawWalkedRoute()
         {
@@ -280,10 +310,16 @@ namespace Pemandangan.View
                 MapIcon mapIcon = (MapIcon)args.MapElements.First();
                 desc = mapIcon.Title;
             }
+
             if (desc != "Current position")
-                foreach (Waypoint w in route.waypoints)
-                    if (w.name == desc)
-                        frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
+            foreach (Waypoint w in route.waypoints)
+                if (w.name == desc)
+                {
+                    frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
+                    infoOpen = true;
+
+                }
+                    
         }
 
         public void buildMap()
@@ -323,7 +359,10 @@ namespace Pemandangan.View
                 getMap(list);
                 return;
             }
-            map.MapElements.Add(line);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                map.MapElements.Add(line);
+            });
         }
 
         private async void addMapIcon(Waypoint e)
@@ -335,8 +374,13 @@ namespace Pemandangan.View
             m.ZIndex = 4;
             m.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1);
 
-            map.MapElements.Add(m);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                map.MapElements.Add(m);
+            });
         }
+
+        
 
         private void setupGeofences(Waypoint w)
         {
