@@ -10,7 +10,7 @@ namespace Pemandangan.Model
     public class Waypoint
     {
         public string name { get; set; }
-        public Boolean landmark { get; set; }
+        public bool landmark { get; set; }
         public string description { get; set; }
         public string image { get; set; }
         public double latitude { get; set; }

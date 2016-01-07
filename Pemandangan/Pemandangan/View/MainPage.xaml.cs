@@ -28,26 +28,26 @@ namespace Pemandangan
     public sealed partial class MainPage : Page
     {
         private string lang;
-
+        
         public MainPage()
         {
             this.InitializeComponent();
-            
-            lang = (String)LanguagePage.LOCAL_SETTINGS.Values["Language"];
-            
-            if(lang!=null && lang=="en")
+
+            lang = (string)LanguagePage.LOCAL_SETTINGS.Values["Language"];
+
+            if (lang != null && lang == "en")
             {
                 PageName.Text = "Language";
             }
             else
             {
-                PageName.Text="Taal";
+                PageName.Text = "Taal";
             }
-            
-            myFrame.Navigate(typeof(LanguagePage),RootFrame);
+
+            myFrame.Navigate(typeof(LanguagePage), RootFrame);
             //startUpLanguage();
         }
-        
+
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             splitView.IsPaneOpen = !splitView.IsPaneOpen;
@@ -58,7 +58,7 @@ namespace Pemandangan
             splitView.IsPaneOpen = !splitView.IsPaneOpen;
             if (SelectRoute.IsSelected)
             {
-                if(lang!=null && lang =="en")
+                if (lang != null && lang == "en")
                 {
                     PageName.Text = "Map";
                 }
@@ -66,8 +66,8 @@ namespace Pemandangan
                 {
                     PageName.Text = "Kaart";
                 }
-                
-                myFrame.Navigate(typeof(RoutePage),myFrame);
+
+                myFrame.Navigate(typeof(RoutePage), myFrame);
             }
             else if (Map.IsSelected)
             {
@@ -79,7 +79,7 @@ namespace Pemandangan
                 {
                     PageName.Text = "Kaart";
                 }
-                myFrame.Navigate(typeof(MapPage),new Tuple<Frame,DataHandler>(myFrame,null));
+                myFrame.Navigate(typeof(MapPage), new Tuple<Frame, DataHandler>(myFrame, null));
             }
             else if (Help.IsSelected)
             {
@@ -103,12 +103,12 @@ namespace Pemandangan
                 {
                     PageName.Text = "";
                 }
-                myFrame.Navigate(typeof(LanguagePage),RootFrame);
+                myFrame.Navigate(typeof(LanguagePage), RootFrame);
             }
             else if (RouteReset.IsSelected)
             {
                 PageName.Text = "Route Reset";
-                myFrame.Navigate(typeof(ResetPage),RootFrame);
+                myFrame.Navigate(typeof(ResetPage), RootFrame);
             }
         }
     }

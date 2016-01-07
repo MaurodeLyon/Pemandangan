@@ -27,7 +27,6 @@ namespace Pemandangan.View
         public ResetPage()
         {
             this.InitializeComponent();
-            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -38,7 +37,6 @@ namespace Pemandangan.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
             frame = (Frame)e.Parameter;
         }
     }

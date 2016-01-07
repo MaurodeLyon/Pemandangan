@@ -53,7 +53,9 @@ namespace Pemandangan.View
             this.InitializeComponent();
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
             walkedRoute = new List<Geopoint>();
-            loadAssets();
+            uri1 = new System.Uri("ms-appx:///Assets/NotSeenWayPoint.png");
+            uri2 = new System.Uri("ms-appx:///Assets/SeenWayPoint.png");
+            person = new Uri("ms-appx:///Assets/Person.png");
             geolocator = new Geolocator
             {
                 DesiredAccuracy = PositionAccuracy.High,
@@ -61,6 +63,7 @@ namespace Pemandangan.View
             };
             geolocator.PositionChanged += GeolocatorPositionChanged;
             geolocator.StatusChanged += Geolocator_StatusChanged;
+            drawCurrentPosition();
         }
 
         private void Geolocator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
@@ -75,30 +78,29 @@ namespace Pemandangan.View
                 case PositionStatus.NoData:
                     if (lang == "en")
                     {
-                        pushNot("GPS Status", "Can't receive GPS data.");
+                        pushNot("Can't receive GPS data.", "GPS Status");
                     }
                     else if (lang == "nl")
                     {
-                        pushNot("Kan geen GPS data binnen krijgen.", "GPS Status");
+                        pushNot("GPS Status", "Kan geen GPS data binnen krijgen.");
                     }
                     else
                     {
-                        pushNot("Can't receive GPS data.", "GPS Status");
+                        pushNot("GPS Status", "Can't receive GPS data.");
                     }
-                    
                     break;
                 case PositionStatus.Disabled:
                     if (lang == "en")
                     {
-                        pushNot("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS and reselect your route.");
                     }
                     else if (lang == "nl")
                     {
-                        pushNot("GPS is uitgeschakeld. schakel GPS in en herselecteer uw route", "GPS Status");
+                        pushNot("GPS Status", "GPS is uitgeschakeld. schakel GPS in en herselecteer uw route");
                     }
                     else
                     {
-                        pushNot("GPS is disabled. Turn on GPS and reselect your route.", "GPS Status");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS and reselect your route.");
                     }
                     break;
                 case PositionStatus.NotInitialized:
@@ -110,23 +112,16 @@ namespace Pemandangan.View
                     }
                     else if (lang == "nl")
                     {
-                        pushNot("Kan geen GPS data binnen krijgen.", "GPS Status");
+                        pushNot("GPS Status", "Kan geen GPS data binnen krijgen.");
                     }
                     else
                     {
-                        pushNot("Can't receive GPS data.", "GPS Status");
+                        pushNot("GPS Status", "Can't receive GPS data.");
                     }
                     break;
                 default:
                     break;
             }
-        }
-
-        private void loadAssets()
-        {
-            uri1 = new System.Uri("ms-appx:///Assets/NotSeenWayPoint.png");
-            uri2 = new System.Uri("ms-appx:///Assets/SeenWayPoint.png");
-            person = new Uri("ms-appx:///Assets/Person.png");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -137,7 +132,7 @@ namespace Pemandangan.View
             if (data.Item2 != null)
                 dataHandler = data.Item2;
 
-            if (geolocator.LocationStatus == PositionStatus.Ready && !infoOpen)
+            if ((geolocator.LocationStatus == PositionStatus.Initializing || geolocator.LocationStatus == PositionStatus.Ready) && !infoOpen)
             {
                 drawCurrentPosition();
                 if (!mapBuild && dataHandler != null)
@@ -149,16 +144,13 @@ namespace Pemandangan.View
 
                 if (infoOpen)
                     infoOpen = false;
-                
+
             }
         }
 
         private async void drawCurrentPosition()
         {
-            Geoposition d = await geolocator.GetGeopositionAsync();
-            Geopoint pos = new Geopoint(d.Coordinate.Point.Position);
             currentPos = new MapIcon();
-            currentPos.Location = pos;
             currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
             currentPos.Title = "Current position";
             currentPos.ZIndex = 5;
@@ -167,7 +159,14 @@ namespace Pemandangan.View
             {
                 map.MapElements.Add(currentPos);
             });
-            await map.TrySetViewAsync(pos, 17);
+
+            if (geolocator.LocationStatus == PositionStatus.Ready)
+            {
+                Geoposition d = await geolocator.GetGeopositionAsync();
+                Geopoint pos = new Geopoint(d.Coordinate.Point.Position);
+                currentPos.Location = pos;
+                await map.TrySetViewAsync(pos, 17);
+            }
         }
 
         public async void setupGeofencing()
@@ -220,7 +219,7 @@ namespace Pemandangan.View
                                         return;
                                     }
                                 }
-                            
+
                             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
                                 foreach (MapElement me in map.MapElements)
@@ -254,7 +253,6 @@ namespace Pemandangan.View
             drawWalkedRoute();
             await map.TrySetViewAsync(geoposition.Coordinate.Point, 17);
         }
-
 
 
         public async void drawWalkedRoute()
