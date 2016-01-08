@@ -15,15 +15,5 @@ namespace Pemandangan.Model
         public string landmarks { get; set; }
         [DataMember]
         public List<Waypoint> waypoints { get; set; }
-        
-        [DataMember]
-        private List<RoutePoint> routePoints { get; set; }
-
-        public Route()
-        {
-            routePoints = new List<RoutePoint>();
-        }
-
-
     }
 }
