@@ -132,7 +132,6 @@
     </Compile>
     <Compile Include="Model\DataHandler.cs" />
     <Compile Include="Model\Route.cs" />
-    <Compile Include="Model\RouteLijst.cs" />
     <Compile Include="Model\Waypoint.cs" />
     <Compile Include="View\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
