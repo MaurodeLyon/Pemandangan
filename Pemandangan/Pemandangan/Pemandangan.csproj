@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Pemandangan</RootNamespace>
     <AssemblyName>Pemandangan</AssemblyName>
-    <DefaultLanguage>nl-NL</DefaultLanguage>
+    <DefaultLanguage>nl</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
@@ -131,8 +131,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DataHandler.cs" />
-    <Compile Include="Model\PlaceInfo.cs" />
     <Compile Include="Model\Route.cs" />
+    <Compile Include="Model\RouteLijst.cs" />
     <Compile Include="Model\Waypoint.cs" />
     <Compile Include="View\HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>

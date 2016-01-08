@@ -22,21 +22,12 @@ namespace Pemandangan.View
 
     public sealed partial class InfoPage : Page
     {
-        private PlaceInfo info = new PlaceInfo();
         private Waypoint waypoint;
         private Frame innerFrame;
 
         public InfoPage()
         {
             this.InitializeComponent();
-            try
-            {
-                Picture.Source = info.getPlace(1);
-            }
-            catch (NullReferenceException ex)
-            {
-                ex.ToString();
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

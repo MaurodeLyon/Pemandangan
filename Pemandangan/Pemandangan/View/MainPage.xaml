@@ -7,54 +7,54 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <Frame x:Name="entireFrame">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Button Grid.Row="0" Name="MenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" FontSize ="26" Click="MenuButton_Click"/>
-        <TextBlock Grid.Row="0" Name="PageName" Text="Map" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Row="0" Name="MenuButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;" FontSize ="26" Click="MenuButton_Click"/>
+            <TextBlock Grid.Row="0" Name="PageName" Text="Map" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
 
 
-        <SplitView Name="splitView" Grid.Row="1" OpenPaneLength="200" >
-            <SplitView.Pane>
-                <ListBox SelectionChanged="ListBox_SelectionChanged">
-                    <ListBoxItem Name="SelectRoute">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE826;" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="SelectRoute" Text="  Select route" FontSize="24"/>
-                        </StackPanel>
-                    </ListBoxItem>
+            <SplitView Name="splitView" Grid.Row="1" OpenPaneLength="200" >
+                <SplitView.Pane>
+                    <ListBox SelectionChanged="ListBox_SelectionChanged">
+                        <ListBoxItem Name="SelectRoute">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE826;" FontSize ="24" VerticalAlignment="Center"/>
+                                <TextBlock x:Uid="SelectRoute" Text="  Select route" FontSize="24"/>
+                            </StackPanel>
+                        </ListBoxItem>
                         <ListBoxItem Name="Map">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE809;" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="MapMP" Text="  Map" FontSize="24"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Name="Help">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text=" ?" FontSize ="24" VerticalAlignment="Center"/>
-                            <TextBlock x:Uid="Help" Text="   Help" FontSize="24"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Name="Language">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE128;" FontSize ="24" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE809;" FontSize ="24" VerticalAlignment="Center"/>
+                                <TextBlock x:Uid="MapMP" Text="  Map" FontSize="24"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="Help">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text=" ?" FontSize ="24" VerticalAlignment="Center"/>
+                                <TextBlock x:Uid="Help" Text="   Help" FontSize="24"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="Language">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE128;" FontSize ="24" VerticalAlignment="Center"/>
                                 <TextBlock x:Uid="Language" Text="  Language" FontSize="24"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Name="RouteReset">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE777;" FontSize ="24" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="RouteReset">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE777;" FontSize ="24" VerticalAlignment="Center"/>
                                 <TextBlock x:Uid="RouteReset" Text="  Route reset" FontSize="24"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                </ListBox>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <Frame Name="innerFrame"/>
-            </SplitView.Content>
-        </SplitView>
-    </Grid>
+                            </StackPanel>
+                        </ListBoxItem>
+                    </ListBox>
+                </SplitView.Pane>
+                <SplitView.Content>
+                    <Frame Name="innerFrame"/>
+                </SplitView.Content>
+            </SplitView>
+        </Grid>
     </Frame>
 </Page>

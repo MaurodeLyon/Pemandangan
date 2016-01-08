@@ -31,7 +31,7 @@ namespace Pemandangan.View
         {
             this.InitializeComponent();
             dataHandler.LoadRoutes();
-            RouteList.Add(dataHandler.selectedRoute);
+            RouteList = dataHandler.routes;
         }
 
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)

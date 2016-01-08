@@ -12,6 +12,7 @@ namespace Pemandangan.Model
     public class DataHandler
     {
         public Route selectedRoute { get; set; }
+        public List<Route> routes;
 
         private static string route_data_path = "Assets/route_data.txt";
         public DataHandler()
@@ -31,7 +32,7 @@ namespace Pemandangan.Model
                 System.Diagnostics.Debug.WriteLine("no data: " + e);
             }
             if (!string.IsNullOrEmpty(jsonString))
-                selectedRoute = JsonConvert.DeserializeObject<Route>(jsonString);
+                routes = JsonConvert.DeserializeObject<List<Route>>(jsonString);
         }
 
     }
