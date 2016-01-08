@@ -11,30 +11,15 @@ namespace Pemandangan.Model
     [DataContract]
     class RoutePoint
     {
-        public enum Direction
-        {
-            North,
-            NorthEast,
-            East,
-            SouthEast,
-            South,
-            SouthWest,
-            West,
-            NorthWest
-        };
-
         [DataMember]
         public double longitude { get; set; }
         [DataMember]
         public double latitiude { get; set; }
-        [DataMember]
-        private Direction direction;
 
-        public RoutePoint(double longitude, double latitiude, Direction direction)
+        public RoutePoint(double longitude, double latitiude)
         {
             this.latitiude = latitiude;
             this.longitude = longitude;
-            this.direction = direction;
         }
 
         public Geopoint ShowPlace()

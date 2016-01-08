@@ -26,7 +26,7 @@ namespace Pemandangan.View
     /// </summary>
     public sealed partial class LanguagePage : Page
     {
-        private Frame frame;
+        private Frame entireFrame;
         public static ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
 
         ObservableCollection<string> list;
@@ -53,13 +53,13 @@ namespace Pemandangan.View
         {
             ApplicationLanguages.PrimaryLanguageOverride = code;
             await Task.Delay(TimeSpan.FromMilliseconds(100));
-            frame.Navigate(typeof(MainPage));
+            entireFrame.Navigate(typeof(MainPage));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            frame = (Frame)e.Parameter;
+            entireFrame = (Frame)e.Parameter;
         }
 
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)

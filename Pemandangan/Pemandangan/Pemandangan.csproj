@@ -131,8 +131,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DataHandler.cs" />
-    <Compile Include="Model\Language.cs" />
-    <Compile Include="Model\Place.cs" />
     <Compile Include="Model\PlaceInfo.cs" />
     <Compile Include="Model\Route.cs" />
     <Compile Include="Model\RoutePoint.cs" />

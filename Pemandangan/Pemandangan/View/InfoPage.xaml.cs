@@ -22,10 +22,9 @@ namespace Pemandangan.View
 
     public sealed partial class InfoPage : Page
     {
-        Model.PlaceInfo info = new Model.PlaceInfo();
-
+        private PlaceInfo info = new PlaceInfo();
         private Waypoint waypoint;
-        private Frame frame;
+        private Frame innerFrame;
 
         public InfoPage()
         {
@@ -45,23 +44,25 @@ namespace Pemandangan.View
             base.OnNavigatedTo(e);
             Tuple<Waypoint, Frame> data = (Tuple<Waypoint, Frame>)e.Parameter;
             waypoint = data.Item1;
-            frame = data.Item2;
+            innerFrame = data.Item2;
 
             if (e.Parameter != null)
             {
                 if (waypoint.image != null)
                 {
-                    Picture.Source = new BitmapImage(new System.Uri(waypoint.image, UriKind.Absolute));
+                    Picture.Source = new BitmapImage(new Uri(waypoint.image, UriKind.Absolute));
                 }
                 Titel.Text = waypoint.name;
-                InfoText.Text = waypoint.description;
+                if (waypoint.description != null)
+                {
+                    InfoText.Text = waypoint.description;
+                }
             }
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            if (frame.CanGoBack)
-                frame.GoBack();
+            innerFrame.Navigate(typeof(MapPage), new Tuple<Frame, DataHandler>(innerFrame, null));
         }
     }
 }

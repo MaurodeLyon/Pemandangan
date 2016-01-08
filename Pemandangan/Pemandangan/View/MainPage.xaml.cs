@@ -28,24 +28,17 @@ namespace Pemandangan
     public sealed partial class MainPage : Page
     {
         private string lang;
-        
         public MainPage()
         {
             this.InitializeComponent();
-
             lang = (string)LanguagePage.LOCAL_SETTINGS.Values["Language"];
 
-            if (lang != null && lang == "en")
-            {
+            if (lang == "en")
                 PageName.Text = "Language";
-            }
             else
-            {
                 PageName.Text = "Taal";
-            }
 
-            myFrame.Navigate(typeof(LanguagePage), RootFrame);
-            //startUpLanguage();
+            innerFrame.Navigate(typeof(LanguagePage), entireFrame);
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
@@ -59,56 +52,43 @@ namespace Pemandangan
             if (SelectRoute.IsSelected)
             {
                 if (lang != null && lang == "en")
-                {
                     PageName.Text = "Map";
-                }
                 else
-                {
                     PageName.Text = "Kaart";
-                }
 
-                myFrame.Navigate(typeof(RoutePage), myFrame);
+                innerFrame.Navigate(typeof(RoutePage), innerFrame);
             }
             else if (Map.IsSelected)
             {
                 if (lang != null && lang == "en")
-                {
                     PageName.Text = "Map";
-                }
                 else
-                {
                     PageName.Text = "Kaart";
-                }
-                myFrame.Navigate(typeof(MapPage), new Tuple<Frame, DataHandler>(myFrame, null));
+
+                innerFrame.Navigate(typeof(MapPage), new Tuple<Frame, DataHandler>(innerFrame, null));
             }
             else if (Help.IsSelected)
             {
                 if (lang != null && lang == "en")
-                {
                     PageName.Text = "Help";
-                }
                 else
-                {
                     PageName.Text = "Help";
-                }
-                myFrame.Navigate(typeof(HelpPage));
+
+                innerFrame.Navigate(typeof(HelpPage));
             }
             else if (Language.IsSelected)
             {
                 if (lang != null && lang == "en")
-                {
                     PageName.Text = "Language";
-                }
                 else
-                {
-                    PageName.Text = "";
-                }
-                myFrame.Navigate(typeof(LanguagePage), RootFrame);
+                    PageName.Text = "Taal";
+
+                innerFrame.Navigate(typeof(LanguagePage), entireFrame);
             }
             else if (RouteReset.IsSelected)
             {
                 PageName.Text = "Route Reset";
-                myFrame.Navigate(typeof(ResetPage), RootFrame);
+                innerFrame.Navigate(typeof(ResetPage), entireFrame);
             }
         }
     }

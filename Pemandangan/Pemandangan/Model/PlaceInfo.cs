@@ -11,7 +11,6 @@ namespace Pemandangan.Model
     [DataContract]
     class PlaceInfo
     {
-
         private Dictionary<int, BitmapImage> places = new Dictionary<int, BitmapImage>();
 
         public PlaceInfo()
@@ -26,7 +25,6 @@ namespace Pemandangan.Model
             {
                 ex.ToString();
             }
-
         }
 
         public BitmapImage getPlace(int key)
@@ -48,7 +46,5 @@ namespace Pemandangan.Model
         private string information;
         [DataMember]
         private string image, audio;
-
-        //Frits jouw taak 
     }
 }

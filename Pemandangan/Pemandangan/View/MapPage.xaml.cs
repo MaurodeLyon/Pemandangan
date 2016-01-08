@@ -35,18 +35,20 @@ namespace Pemandangan.View
     public sealed partial class MapPage : Page
     {
         private Geolocator geolocator;
-        private MapIcon currentPos;
-        private MapPolyline LatestwalkedLine;
-        private List<Geopoint> walkedRoute;
+        private DataHandler dataHandler;
+        private Frame innerFrame;
 
-        private Frame frame;
-        private Route route;
         private Uri uri1;
         private Uri uri2;
         private Uri person;
-        private bool mapBuild = false;
-        private DataHandler dataHandler;
-        private bool infoOpen = false;
+
+        private bool isInfoPageOpen = false;
+        private bool isMapBuild = false;
+
+        private Route selectedRoute;
+        private List<Geopoint> walkedRoute;
+        private MapPolyline walkedLine;
+        private MapIcon currentPos;
 
         public MapPage()
         {
@@ -127,24 +129,22 @@ namespace Pemandangan.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Tuple<Frame, DataHandler> data = (Tuple<Frame, DataHandler>)e.Parameter;
-            frame = data.Item1;
-            if (data.Item2 != null)
-                dataHandler = data.Item2;
+            Tuple<Frame, DataHandler> data = e.Parameter as Tuple<Frame, DataHandler>;
+            innerFrame = data.Item1;
+            if (data.Item2 != null) dataHandler = data.Item2;
 
-            if ((geolocator.LocationStatus == PositionStatus.Initializing || geolocator.LocationStatus == PositionStatus.Ready) && !infoOpen)
+            if ((geolocator.LocationStatus == PositionStatus.Initializing || geolocator.LocationStatus == PositionStatus.Ready) && !isInfoPageOpen)
             {
                 drawCurrentPosition();
-                if (!mapBuild && dataHandler != null)
+                if (!isMapBuild && dataHandler != null)
                 {
-                    route = dataHandler.lastRoute;
+                    selectedRoute = dataHandler.selectedRoute;
                     setupGeofencing();
                     buildMap();
                 }
 
-                if (infoOpen)
-                    infoOpen = false;
-
+                if (isInfoPageOpen)
+                    isInfoPageOpen = false;
             }
         }
 
@@ -160,30 +160,37 @@ namespace Pemandangan.View
                 map.MapElements.Add(currentPos);
             });
 
-            if (geolocator.LocationStatus == PositionStatus.Ready)
+            var a = await Geolocator.RequestAccessAsync();
+            if (a == GeolocationAccessStatus.Allowed)
             {
-                Geoposition d = await geolocator.GetGeopositionAsync();
-                Geopoint pos = new Geopoint(d.Coordinate.Point.Position);
-                currentPos.Location = pos;
-                await map.TrySetViewAsync(pos, 17);
+                if (geolocator.LocationStatus == PositionStatus.Ready)
+                {
+                    Geoposition d = await geolocator.GetGeopositionAsync();
+                    Geopoint pos = new Geopoint(d.Coordinate.Point.Position);
+                    currentPos.Location = pos;
+                    await map.TrySetViewAsync(pos, 17);
+                }
             }
         }
 
         public async void setupGeofencing()
         {
             GeofenceMonitor.Current.Geofences.Clear();
-            Geoposition location = await geolocator.GetGeopositionAsync().AsTask();
-            Geofence fence = GeofenceMonitor.Current.Geofences.FirstOrDefault(gf => gf.Id == "currentLoc");
+            if (await Geolocator.RequestAccessAsync() == GeolocationAccessStatus.Allowed)
+            {
+                Geoposition location = await geolocator.GetGeopositionAsync().AsTask();
+                Geofence fence = GeofenceMonitor.Current.Geofences.FirstOrDefault(gf => gf.Id == "currentLoc");
 
-            if (fence == null)
-                GeofenceMonitor.Current.Geofences.Add(
-                     new Geofence("currentLoc",
-                     new Geocircle(location.Coordinate.Point.Position, 10.0),
-                     MonitoredGeofenceStates.Entered,
-                     false,
-                     TimeSpan.FromSeconds(10)));
+                if (fence == null)
+                    GeofenceMonitor.Current.Geofences.Add(
+                         new Geofence("currentLoc",
+                         new Geocircle(location.Coordinate.Point.Position, 10.0),
+                         MonitoredGeofenceStates.Entered,
+                         false,
+                         TimeSpan.FromSeconds(10)));
 
-            GeofenceMonitor.Current.GeofenceStateChanged += GeofenceStateChanged;
+                GeofenceMonitor.Current.GeofenceStateChanged += GeofenceStateChanged;
+            }
         }
 
         private async void GeofenceStateChanged(GeofenceMonitor sender, object args)
@@ -192,23 +199,21 @@ namespace Pemandangan.View
 
             foreach (GeofenceStateChangeReport report in reports)
             {
-                GeofenceState state = report.NewState;
-                Geofence geofence = report.Geofence;
 
-                switch (state)
+                switch (report.NewState)
                 {
                     case GeofenceState.None:
                         break;
                     case GeofenceState.Entered:
-                        if (geofence.Id != "currentLoc")
+                        if (report.Geofence.Id != "currentLoc")
                         {
                             string desc = "";
-                            foreach (Waypoint e in route.waypoints)
-                                if (geofence.Id == e.name)
+                            foreach (Waypoint e in selectedRoute.waypoints)
+                                if (report.Geofence.Id == e.name)
                                 {
                                     desc = e.name;
                                     pushNot("Waypoint Nearby", desc);
-                                    if (geofence.Id == "Einde stadswandeling")
+                                    if (report.Geofence.Id == "Einde stadswandeling")
                                     {
                                         await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                         {
@@ -226,7 +231,7 @@ namespace Pemandangan.View
                                     if (me is MapIcon)
                                     {
                                         MapIcon icon = (MapIcon)me;
-                                        if (icon.Title == geofence.Id)
+                                        if (icon.Title == report.Geofence.Id)
                                             icon.Image = await StorageFile.GetFileFromApplicationUriAsync(uri2);
                                     }
                             });
@@ -244,16 +249,18 @@ namespace Pemandangan.View
 
         private async void GeolocatorPositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
-            Geoposition geoposition = await geolocator.GetGeopositionAsync();
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (await Geolocator.RequestAccessAsync() == GeolocationAccessStatus.Allowed)
             {
-                currentPos.Location = geoposition.Coordinate.Point;
-            });
-            walkedRoute.Add(geoposition.Coordinate.Point);
-            drawWalkedRoute();
-            await map.TrySetViewAsync(geoposition.Coordinate.Point, 17);
+                Geoposition updatedPosition = await geolocator.GetGeopositionAsync();
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    currentPos.Location = updatedPosition.Coordinate.Point;
+                });
+                walkedRoute.Add(updatedPosition.Coordinate.Point);
+                drawWalkedRoute();
+                await map.TrySetViewAsync(updatedPosition.Coordinate.Point, 17);
+            }
         }
-
 
         public async void drawWalkedRoute()
         {
@@ -261,7 +268,7 @@ namespace Pemandangan.View
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    MapPolyline walkedLine = new MapPolyline
+                    MapPolyline updatedWalkedLine = new MapPolyline
                     {
                         StrokeThickness = 11,
                         StrokeColor = Colors.Gray,
@@ -269,61 +276,58 @@ namespace Pemandangan.View
                         ZIndex = 3
                     };
 
-                    List<BasicGeoposition> tempList = new List<BasicGeoposition>();
+                    List<BasicGeoposition> walkedPointList = new List<BasicGeoposition>();
 
-                    foreach (Geopoint e in walkedRoute)
-                        tempList.Add(e.Position);
+                    foreach (Geopoint walkedPoint in walkedRoute)
+                        walkedPointList.Add(walkedPoint.Position);
 
-                    walkedLine.Path = new Geopath(tempList);
-                    if (LatestwalkedLine != null)
-                        map.MapElements.Remove(LatestwalkedLine);
+                    updatedWalkedLine.Path = new Geopath(walkedPointList);
+                    if (walkedLine != null)
+                        map.MapElements.Remove(walkedLine);
 
-                    LatestwalkedLine = walkedLine;
-                    map.MapElements.Add(LatestwalkedLine);
+                    walkedLine = updatedWalkedLine;
+                    map.MapElements.Add(walkedLine);
                 });
             }
         }
 
         private void map_MapElementClick(MapControl sender, MapElementClickEventArgs args)
         {
-            string desc = "Nothing";
+            string description = "No description";
             if (args.MapElements.First() is MapIcon)
             {
                 MapIcon mapIcon = (MapIcon)args.MapElements.First();
-                desc = mapIcon.Title;
+                description = mapIcon.Title;
             }
 
-            if (desc != "Current position")
-                foreach (Waypoint w in route.waypoints)
-                    if (w.name == desc)
+            if (description != "Current position")
+                foreach (Waypoint wayPoint in selectedRoute.waypoints)
+                    if (wayPoint.name == description)
                     {
-                        frame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(w, frame));
-                        infoOpen = true;
-
+                        innerFrame.Navigate(typeof(InfoPage), new Tuple<Waypoint, Frame>(wayPoint, innerFrame));
+                        isInfoPageOpen = true;
                     }
-
         }
 
         public void buildMap()
         {
             List<Geopoint> landMarkList = new List<Geopoint>();
-
-            foreach (Waypoint e in route.waypoints)
+            foreach (Waypoint waypoint in selectedRoute.waypoints)
             {
-                landMarkList.Add(e.GeoPosition());
-                if (e.landmark)
+                landMarkList.Add(waypoint.GeoPosition());
+                if (waypoint.landmark)
                 {
-                    addMapIcon(e);
-                    setupGeofences(e);
+                    addMapIcon(waypoint);
+                    setupGeofences(waypoint);
                 }
             }
             getMap(landMarkList);
-            mapBuild = true;
+            isMapBuild = true;
         }
 
-        private async void getMap(List<Geopoint> list)
+        private async void getMap(List<Geopoint> landMarkList)
         {
-            MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(list);
+            MapRouteFinderResult routeResult = await MapRouteFinder.GetWalkingRouteFromWaypointsAsync(landMarkList);
             MapRoute mapRoute = routeResult.Route;
 
             MapPolyline line = new MapPolyline
@@ -338,7 +342,7 @@ namespace Pemandangan.View
                 line.Path = new Geopath(mapRoute.Path.Positions);
             else
             {
-                getMap(list);
+                getMap(landMarkList);
                 return;
             }
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -347,28 +351,29 @@ namespace Pemandangan.View
             });
         }
 
-        private async void addMapIcon(Waypoint e)
+        private async void addMapIcon(Waypoint waypoint)
         {
-            MapIcon m = new MapIcon();
-            m.Location = e.GeoPosition();
-            m.NormalizedAnchorPoint = new Point(0.5, 1.0);
-            m.Title = e.name;
-            m.ZIndex = 4;
-            m.Image = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri1);
+            MapIcon mapIcon = new MapIcon();
+            mapIcon.Location = waypoint.GeoPosition();
+            mapIcon.NormalizedAnchorPoint = new Point(0.5, 1.0);
+            mapIcon.Title = waypoint.name;
+            mapIcon.ZIndex = 4;
+            mapIcon.Image = await StorageFile.GetFileFromApplicationUriAsync(uri1);
 
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                map.MapElements.Add(m);
+                map.MapElements.Add(mapIcon);
             });
         }
 
-
-
-        private void setupGeofences(Waypoint w)
+        private void setupGeofences(Waypoint wayPoint)
         {
-            Geocircle geocircle = new Geocircle(w.GeoPosition().Position, 40);
-            MonitoredGeofenceStates mask = MonitoredGeofenceStates.Entered | MonitoredGeofenceStates.Exited;
-            Geofence fence = new Geofence(w.name, geocircle, mask, false, new TimeSpan(0));
+            Geofence fence = new Geofence(
+                wayPoint.name,
+                new Geocircle(wayPoint.GeoPosition().Position, 40),
+                MonitoredGeofenceStates.Entered | MonitoredGeofenceStates.Exited,
+                false,
+                new TimeSpan(0));
             if (!GeofenceMonitor.Current.Geofences.Contains(fence))
                 GeofenceMonitor.Current.Geofences.Add(fence);
         }

@@ -11,11 +11,11 @@ namespace Pemandangan.Model
 {
     public class DataHandler
     {
-        private List<Language> languages { get; set; }
+        public Route selectedRoute { get; set; }
 
+        private static string route_data_path = "Assets/route_data.txt";
         public DataHandler()
         {
-            languages = new List<Language>();
             //LoadRoutes();
         }
 
@@ -24,19 +24,15 @@ namespace Pemandangan.Model
             string jsonString = "";
             try
             {
-//                var uri = new System.Uri("ms-appx:///Assets/route_data.txt");
-//                var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-                string file = "Assets/route_data.txt";
-                jsonString = File.ReadAllText(file);
+                jsonString = File.ReadAllText(route_data_path);
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("no data: " + e);
             }
             if (!string.IsNullOrEmpty(jsonString))
-                lastRoute = JsonConvert.DeserializeObject<Route>(jsonString);
+                selectedRoute = JsonConvert.DeserializeObject<Route>(jsonString);
         }
 
-        public Route lastRoute { get; set; }
     }
 }
