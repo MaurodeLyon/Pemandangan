@@ -251,14 +251,20 @@ namespace Pemandangan.View
         {
             if (await Geolocator.RequestAccessAsync() == GeolocationAccessStatus.Allowed)
             {
-                Geoposition updatedPosition = await geolocator.GetGeopositionAsync();
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                try {
+                    Geoposition updatedPosition = await geolocator.GetGeopositionAsync();
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        currentPos.Location = updatedPosition.Coordinate.Point;
+                    });
+                    walkedRoute.Add(updatedPosition.Coordinate.Point);
+                    drawWalkedRoute();
+                    await map.TrySetViewAsync(updatedPosition.Coordinate.Point, 17);
+                }
+                catch(System.UnauthorizedAccessException e)
                 {
-                    currentPos.Location = updatedPosition.Coordinate.Point;
-                });
-                walkedRoute.Add(updatedPosition.Coordinate.Point);
-                drawWalkedRoute();
-                await map.TrySetViewAsync(updatedPosition.Coordinate.Point, 17);
+                    pushNot("GPS Status", "GPS Disabled while retrieving location, Please enable GPS");
+                }
             }
         }
 
