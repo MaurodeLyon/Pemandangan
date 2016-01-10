@@ -94,15 +94,15 @@ namespace Pemandangan.View
                 case PositionStatus.Disabled:
                     if (lang == "en")
                     {
-                        pushNot("GPS Status", "GPS is disabled. Turn on GPS and reselect your route.");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS.");
                     }
                     else if (lang == "nl")
                     {
-                        pushNot("GPS Status", "GPS is uitgeschakeld. schakel GPS in en herselecteer uw route");
+                        pushNot("GPS Status", "GPS is uitgeschakeld. schakel GPS in.");
                     }
                     else
                     {
-                        pushNot("GPS Status", "GPS is disabled. Turn on GPS and reselect your route.");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS.");
                     }
                     break;
                 case PositionStatus.NotInitialized:
@@ -251,14 +251,20 @@ namespace Pemandangan.View
         {
             if (await Geolocator.RequestAccessAsync() == GeolocationAccessStatus.Allowed)
             {
-                Geoposition updatedPosition = await geolocator.GetGeopositionAsync();
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                try {
+                    Geoposition updatedPosition = await geolocator.GetGeopositionAsync();
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        currentPos.Location = updatedPosition.Coordinate.Point;
+                    });
+                    walkedRoute.Add(updatedPosition.Coordinate.Point);
+                    drawWalkedRoute();
+                    await map.TrySetViewAsync(updatedPosition.Coordinate.Point, 17);
+                }
+                catch(System.UnauthorizedAccessException e)
                 {
-                    currentPos.Location = updatedPosition.Coordinate.Point;
-                });
-                walkedRoute.Add(updatedPosition.Coordinate.Point);
-                drawWalkedRoute();
-                await map.TrySetViewAsync(updatedPosition.Coordinate.Point, 17);
+                    //pushNot("GPS Status", "GPS Disabled while retrieving location, Please enable GPS");
+                }
             }
         }
 
