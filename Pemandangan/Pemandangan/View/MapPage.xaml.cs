@@ -94,15 +94,15 @@ namespace Pemandangan.View
                 case PositionStatus.Disabled:
                     if (lang == "en")
                     {
-                        pushNot("GPS Status", "GPS is disabled. Turn on GPS and reselect your route.");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS ");
                     }
                     else if (lang == "nl")
                     {
-                        pushNot("GPS Status", "GPS is uitgeschakeld. schakel GPS in en herselecteer uw route");
+                        pushNot("GPS Status", "GPS is uitgeschakeld. schakel GPS in ");
                     }
                     else
                     {
-                        pushNot("GPS Status", "GPS is disabled. Turn on GPS and reselect your route.");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS ");
                     }
                     break;
                 case PositionStatus.NotInitialized:
@@ -263,7 +263,7 @@ namespace Pemandangan.View
                 }
                 catch(System.UnauthorizedAccessException e)
                 {
-                    pushNot("GPS Status", "GPS Disabled while retrieving location, Please enable GPS");
+                    //pushNot("GPS Status", "GPS Disabled while retrieving location, Please enable GPS");
                 }
             }
         }
