@@ -94,15 +94,15 @@ namespace Pemandangan.View
                 case PositionStatus.Disabled:
                     if (lang == "en")
                     {
-                        pushNot("GPS Status", "GPS is disabled. Turn on GPS ");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS.");
                     }
                     else if (lang == "nl")
                     {
-                        pushNot("GPS Status", "GPS is uitgeschakeld. schakel GPS in ");
+                        pushNot("GPS Status", "GPS is uitgeschakeld. schakel GPS in.");
                     }
                     else
                     {
-                        pushNot("GPS Status", "GPS is disabled. Turn on GPS ");
+                        pushNot("GPS Status", "GPS is disabled. Turn on GPS.");
                     }
                     break;
                 case PositionStatus.NotInitialized:
