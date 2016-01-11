@@ -1,14 +1,17 @@
-﻿using Pemandangan.Model;
+﻿using Newtonsoft.Json;
+using Pemandangan.Model;
 using Pemandangan.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
@@ -28,6 +31,8 @@ namespace Pemandangan
     public sealed partial class MainPage : Page
     {
         private string lang;
+        private DataHandler dataHandler;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -39,6 +44,43 @@ namespace Pemandangan
                 PageName.Text = "Taal";
 
             innerFrame.Navigate(typeof(LanguagePage), entireFrame);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            dataHandler = (DataHandler)e.Parameter;
+            ApplicationDataContainer Local_Settings = ApplicationData.Current.LocalSettings;
+            try
+            {
+                bool wasWalking = Convert.ToBoolean(Local_Settings.Values["isWalking"]);
+                if (wasWalking)
+                {
+                    System.Diagnostics.Debug.WriteLine("was lope");
+                    string jsonString = "";
+                    try
+                    {
+                        System.Diagnostics.Debug.WriteLine("Loading walked route");
+                        using (var stream = ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("walkedRoute.json").Result)
+                        {
+                            byte[] result = new byte[stream.Length];
+                            stream.ReadAsync(result, 0, result.Length);
+                            jsonString = Encoding.ASCII.GetString(result);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("not yet ");
+                    }
+                    if (!string.IsNullOrEmpty(jsonString))
+                        dataHandler.walkedRoute = JsonConvert.DeserializeObject<List<Model.Point>>(jsonString);
+                    System.Diagnostics.Debug.WriteLine("size: " + dataHandler.walkedRoute.Count);
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("niet lope");
+                }
+            }
+            catch (NullReferenceException ex) { }  //First run
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
@@ -56,7 +98,7 @@ namespace Pemandangan
                 else
                     PageName.Text = "Kaart";
 
-                innerFrame.Navigate(typeof(RoutePage), innerFrame);
+                innerFrame.Navigate(typeof(RoutePage), new Tuple<Frame, DataHandler>(innerFrame, dataHandler));
             }
             else if (Map.IsSelected)
             {

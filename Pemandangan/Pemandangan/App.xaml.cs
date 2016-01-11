@@ -1,15 +1,19 @@
-﻿using Pemandangan.View;
+﻿using Newtonsoft.Json;
+using Pemandangan.Model;
+using Pemandangan.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,12 +29,14 @@ namespace Pemandangan
     /// </summary>
     sealed partial class App : Application
     {
+        private DataHandler dataHandler;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         public App()
         {
+            dataHandler = new DataHandler();
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
@@ -82,7 +88,7 @@ namespace Pemandangan
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                rootFrame.Navigate(typeof(MainPage),dataHandler);
             }
             // Ensure the current window is active
             Window.Current.Activate();
@@ -107,6 +113,25 @@ namespace Pemandangan
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            ApplicationDataContainer Local_Settings = ApplicationData.Current.LocalSettings;
+            if (dataHandler.routeInProgress)
+            {
+                Local_Settings.Values["isWalking"] = true;
+                //saving walked route:
+                string json = JsonConvert.SerializeObject(dataHandler.walkedRoute);
+                System.Diagnostics.Debug.WriteLine("size: " + dataHandler.walkedRoute.Count);
+                using (var stream = ApplicationData.Current.LocalFolder.OpenStreamForWriteAsync("walkedRoute.json", CreationCollisionOption.ReplaceExisting).Result)
+                {
+                    byte[] bytes = Encoding.UTF8.GetBytes(json.ToCharArray());
+                    stream.WriteAsync(bytes, 0, bytes.Length);
+                }
+                System.Diagnostics.Debug.WriteLine("yop");
+            }
+            else
+            {
+                Local_Settings.Values["isWalking"] = false;
+                System.Diagnostics.Debug.WriteLine("nop");
+            }
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
