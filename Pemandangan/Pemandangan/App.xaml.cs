@@ -34,10 +34,13 @@ namespace Pemandangan
             Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(
                 Microsoft.ApplicationInsights.WindowsCollectors.Metadata |
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
-            ApplicationLanguages.PrimaryLanguageOverride = "nl";
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            LanguagePage.LOCAL_SETTINGS.Values["Language"] = "nl";
+            if (LanguagePage.LOCAL_SETTINGS.Values["Language"] == null)
+            {
+                LanguagePage.LOCAL_SETTINGS.Values["Language"] = "nl";
+                ApplicationLanguages.PrimaryLanguageOverride = "nl";
+            }
         }
 
         /// <summary>

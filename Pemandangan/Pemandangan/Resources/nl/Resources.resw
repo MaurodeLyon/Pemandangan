@@ -139,6 +139,6 @@
     <value>  Reset Route</value>
   </data>
   <data name="SelectRoute.Text" xml:space="preserve">
-    <value>  Route</value>
+    <value>  Kies route</value>
   </data>
 </root>
