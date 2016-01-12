@@ -139,6 +139,8 @@ namespace Pemandangan.View
                 if (!isMapBuild && dataHandler != null)
                 {
                     selectedRoute = dataHandler.selectedRoute;
+                    if (dataHandler.walkedRoute.Count > 0)
+                        walkedRoute = dataHandler.getWalkedRouteGeoPositions();
                     setupGeofencing();
                     buildMap();
                 }
@@ -151,7 +153,7 @@ namespace Pemandangan.View
         private async void drawCurrentPosition()
         {
             currentPos = new MapIcon();
-            currentPos.NormalizedAnchorPoint = new Point(0.5, 1.0);
+            currentPos.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
             currentPos.Title = "Current position";
             currentPos.ZIndex = 5;
             currentPos.Image = await StorageFile.GetFileFromApplicationUriAsync(person);
@@ -276,6 +278,7 @@ namespace Pemandangan.View
                         currentPos.Location = updatedPosition.Coordinate.Point;
                     });
                     walkedRoute.Add(updatedPosition.Coordinate.Point);
+                    dataHandler.walkedRoute.Add(new Model.Point(updatedPosition.Coordinate.Point.Position.Longitude,updatedPosition.Coordinate.Point.Position.Latitude));
                     drawWalkedRoute();
                     await map.TrySetViewAsync(updatedPosition.Coordinate.Point, 17);
                 }
@@ -309,6 +312,7 @@ namespace Pemandangan.View
                     if (walkedLine != null)
                         map.MapElements.Remove(walkedLine);
 
+                    
                     walkedLine = updatedWalkedLine;
                     map.MapElements.Add(walkedLine);
                 });
@@ -379,7 +383,7 @@ namespace Pemandangan.View
         {
             MapIcon mapIcon = new MapIcon();
             mapIcon.Location = waypoint.GeoPosition();
-            mapIcon.NormalizedAnchorPoint = new Point(0.5, 1.0);
+            mapIcon.NormalizedAnchorPoint = new Windows.Foundation.Point(0.5, 1.0);
             mapIcon.Title = waypoint.name;
             mapIcon.ZIndex = 4;
             mapIcon.Image = await StorageFile.GetFileFromApplicationUriAsync(uri1);

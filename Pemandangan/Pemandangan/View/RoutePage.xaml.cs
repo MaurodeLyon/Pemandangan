@@ -25,25 +25,30 @@ namespace Pemandangan.View
     {
         public List<Route> RouteList = new List<Route>();
         private Frame InnerFrame;
-        private DataHandler dataHandler = new DataHandler();
+        private DataHandler dataHandler;
 
         public RoutePage()
         {
             this.InitializeComponent();
-            dataHandler.LoadRoutes();
-            RouteList = dataHandler.routes;
         }
 
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             dataHandler.selectedRoute = (Route)e.ClickedItem;
             InnerFrame.Navigate(typeof(MapPage), new Tuple<Frame,DataHandler>(InnerFrame,dataHandler));
+            dataHandler.routeInProgress = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            InnerFrame = (Frame)e.Parameter;
+            if (e.Parameter != null)
+            {
+                Tuple<Frame, DataHandler> parameter = (Tuple<Frame, DataHandler>)e.Parameter;
+                InnerFrame = parameter.Item1;
+                dataHandler = parameter.Item2;
+                RouteList = dataHandler.routes;
+            }
         }
     }
 }
