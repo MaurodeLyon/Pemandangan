@@ -220,6 +220,24 @@ namespace Pemandangan.View
                                             map.MapElements.Clear();
                                             walkedRoute = new List<Geopoint>();
                                             map.MapElements.Add(currentPos);
+
+                                            //get vvv waypoint
+                                            Waypoint vvv = null;
+                                            foreach (Waypoint wp in this.selectedRoute.waypoints)
+                                            {
+                                                if (wp.name == "VVV")
+                                                {
+                                                    vvv = wp;
+                                                }
+                                            }
+
+                                            List<Geopoint> waypointList = new List<Geopoint>();
+                                            waypointList.Add(currentPos.Location);
+                                            waypointList.Add(vvv.GeoPosition());
+
+                                            getMap(waypointList);
+                                            addMapIcon(vvv);
+
                                         });
                                         return;
                                     }
