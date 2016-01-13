@@ -41,14 +41,13 @@ namespace Pemandangan
             if (lang == "en")
                 PageName.Text = "Language";
             else
-                PageName.Text = "Taal";
-
-            innerFrame.Navigate(typeof(LanguagePage), entireFrame);
+                PageName.Text = "Taal";  
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             dataHandler = (DataHandler)e.Parameter;
+            innerFrame.Navigate(typeof(LanguagePage), new Tuple<Frame, DataHandler>(entireFrame, dataHandler));
             ApplicationDataContainer Local_Settings = ApplicationData.Current.LocalSettings;
             try
             {
@@ -125,7 +124,7 @@ namespace Pemandangan
                 else
                     PageName.Text = "Taal";
 
-                innerFrame.Navigate(typeof(LanguagePage), entireFrame);
+                innerFrame.Navigate(typeof(LanguagePage), new Tuple<Frame, DataHandler>(entireFrame, dataHandler));
             }
             else if (RouteReset.IsSelected)
             {

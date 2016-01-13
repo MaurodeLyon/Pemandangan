@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pemandangan.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -27,6 +28,7 @@ namespace Pemandangan.View
     public sealed partial class LanguagePage : Page
     {
         private Frame entireFrame;
+        private DataHandler dataHandler;
         public static ApplicationDataContainer LOCAL_SETTINGS = ApplicationData.Current.LocalSettings;
 
         ObservableCollection<string> list;
@@ -53,13 +55,18 @@ namespace Pemandangan.View
         {
             ApplicationLanguages.PrimaryLanguageOverride = code;
             await Task.Delay(TimeSpan.FromMilliseconds(100));
-            entireFrame.Navigate(typeof(MainPage));
+            entireFrame.Navigate(typeof(MainPage),dataHandler);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            entireFrame = (Frame)e.Parameter;
+            if (e.Parameter != null)
+            {
+                Tuple<Frame, DataHandler> parameter = (Tuple<Frame, DataHandler>)e.Parameter;
+                entireFrame = parameter.Item1;
+                dataHandler = parameter.Item2;
+            }
         }
 
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
